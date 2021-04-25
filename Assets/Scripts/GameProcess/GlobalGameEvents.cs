@@ -2,16 +2,18 @@ using System;
 
 using Deblue.ObservingSystem;
 
-namespace Deblue.GameProcess
+namespace Deblue.LD48
 {
     public interface IGlobalGameEvents
     {
         void SubscribeOnGameOver(Action<Game_Over> action);
         void SubscribeOnNewGame(Action<New_Game> action);
+        void SubscribeOnGameStateChange(Action<Game_State_Change> action);
         void SubscribeOnNewSession(Action<New_Game_Session> newAction, Action<End_Game_Session> endAction);
 
         void UnsubscribeOnGameOver(Action<Game_Over> action);
         void UnsubscribeOnNewGame(Action<New_Game> action);
+        void UnsubscribeOnGameStateChange(Action<Game_State_Change> action);
         void UnsubscribeOnNewSession(Action<New_Game_Session> newAction, Action<End_Game_Session> endAction);
     }
 
@@ -24,6 +26,11 @@ namespace Deblue.GameProcess
         }
         
         public void SubscribeOnNewGame(Action<New_Game> action)
+        {
+            Subscribe(action);
+        }
+        
+        public void SubscribeOnGameStateChange(Action<Game_State_Change> action)
         {
             Subscribe(action);
         }
@@ -42,6 +49,11 @@ namespace Deblue.GameProcess
         }
         
         public void UnsubscribeOnNewGame(Action<New_Game> action)
+        {
+            Unsubscribe(action);
+        }
+        
+        public void UnsubscribeOnGameStateChange(Action<Game_State_Change> action)
         {
             Unsubscribe(action);
         }
