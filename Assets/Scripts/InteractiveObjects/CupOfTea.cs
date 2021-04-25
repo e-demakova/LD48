@@ -4,13 +4,11 @@ namespace Deblue.LD48
 {
     public class CupOfTea : TakebleObject
     {
+        public override bool CanPut => _isTaken;
+        public override bool CanTake => !_isTaken;
+        protected override bool CanHighlight => !_isTaken;
+
         [SerializeField] protected SpritePair _sprites;
-
-        public override bool CanPut => throw new System.NotImplementedException();
-
-        public override bool CanTake => throw new System.NotImplementedException();
-
-        protected override bool CanHighlight => throw new System.NotImplementedException();
 
         protected sealed override void StopHighlight()
         {

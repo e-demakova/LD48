@@ -8,9 +8,9 @@ namespace Deblue.LD48
 
         bool CanTake { get; }
 
-        ITakebleObject Take(Vector3 takePosition);
+        TakebleObject Take();
 
-        void Put(Vector3 putPosition);
+        void Put();
     }
 
     public interface ITakebleObjectContainer
@@ -19,7 +19,7 @@ namespace Deblue.LD48
 
         bool CanTake { get; }
 
-        ITakebleObject Take(Vector3 takePosition);
+        TakebleObject Take();
 
         void Return();
     }

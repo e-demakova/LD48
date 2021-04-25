@@ -66,14 +66,14 @@ namespace Deblue.LD48
         public abstract bool CanPut { get; }
         public abstract bool CanTake { get; }
 
-        public ITakebleObject Take(Vector3 takePosition)
+        public TakebleObject Take()
         {
             _isTaken = true;
             StopHighlight();
             return this;
         }
 
-        public void Put(Vector3 putPosition)
+        public void Put()
         {
             _isTaken = false;
             TryHilight();
@@ -85,7 +85,7 @@ namespace Deblue.LD48
         public abstract bool CanReturn { get; }
         public abstract bool CanTake { get; }
 
-        public abstract ITakebleObject Take(Vector3 takePosition);
+        public abstract TakebleObject Take();
         public abstract void Return();
     }
 }

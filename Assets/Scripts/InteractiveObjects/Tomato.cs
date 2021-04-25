@@ -1,19 +1,24 @@
-﻿namespace Deblue.LD48
+﻿using UnityEngine;
+
+namespace Deblue.LD48
 {
+    //TODO: Создать подкласс TakenObject с базовой реализацие всех методов и свойств.
     public class Tomato : TakebleObject
     {
-        public override bool CanPut => throw new System.NotImplementedException();
-        public override bool CanTake => throw new System.NotImplementedException();
-        protected override bool CanHighlight => true;
+        public override bool CanPut => _isTaken;
+        public override bool CanTake => !_isTaken;
+        protected override bool CanHighlight => !_isTaken;
 
-        protected override void Highlight()
+        [SerializeField] protected SpritePair _sprites;
+
+        protected sealed override void StopHighlight()
         {
-            throw new System.NotImplementedException();
+            Renderer.sprite = _sprites.Standart;
         }
 
-        protected override void StopHighlight()
+        protected sealed override void Highlight()
         {
-            throw new System.NotImplementedException();
+            Renderer.sprite = _sprites.Highlight;
         }
     }
 }

@@ -10,10 +10,12 @@ namespace Deblue.LD48
 
         protected override bool CanHighlight => _player.TakenObject is Tomato;
 
+        [SerializeField] private SpritePair[] _sprites;
+
         protected Tomato[] _tomatoes = new Tomato[4];
         protected int _tomatoesCount;
 
-        public override ITakebleObject Take(Vector3 takePosition)
+        public override TakebleObject Take()
         {
             _tomatoesCount--;
             var tomato = _tomatoes[_tomatoesCount];
@@ -30,12 +32,12 @@ namespace Deblue.LD48
 
         protected override void Highlight()
         {
-            throw new System.NotImplementedException();
+            Renderer.sprite = _sprites[_tomatoesCount].Highlight;
         }
 
         protected override void StopHighlight()
         {
-            throw new System.NotImplementedException();
+            Renderer.sprite = _sprites[_tomatoesCount].Standart;
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Deblue.LD48
 
         private bool _cupTaken;
 
-        public override ITakebleObject Take(Vector3 takePosition)
+        public override TakebleObject Take()
         {
             _cupTaken = true;
             return _cup;

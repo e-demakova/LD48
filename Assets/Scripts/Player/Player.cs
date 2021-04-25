@@ -37,7 +37,6 @@ namespace Deblue.LD48
             DialogSwitcher.Events.SubscribeOnDialogStart(OnDialogStart);
             DialogSwitcher.Events.SubscribeOnDialogEnd(OnDialogEnd);
 
-
             InputReciver.SubscribeOnInput<On_Button_Down>(InteractWithObject, KeyCode.F);
         }
 
@@ -117,7 +116,21 @@ namespace Deblue.LD48
             {
                 TryPutObject();
             }
+
+            if (IsHoldObject)
+            {
+                return;
+            }
+
             if (takebleObj != null)
+            {
+                if (TryTakeObject(takebleObj))
+                {
+                    _nearObject = null;
+                }
+            }
+            var objContainer = _nearObject as TakebleObjectContainer;
+            if (objContainer != null)
             {
                 if (TryTakeObject(takebleObj))
                 {
@@ -128,15 +141,28 @@ namespace Deblue.LD48
 
         private bool TryTakeObject(TakebleObject obj)
         {
-            if (obj == null || IsHoldObject)
+            if (obj == null)
             {
                 return false;
             }
             if (obj.CanTake)
             {
-                obj.Take(_objectTakePosition + transform.position);
                 SetToHands(obj);
-                TakenObject = obj;
+                return true;
+            }
+            return false;
+        }
+
+        private bool TryReciveObjest(TakebleObjectContainer objContainer)
+        {
+            if (objContainer == null)
+            {
+                return false;
+            }
+            if (objContainer.CanTake)
+            {
+                var obj = objContainer.Take();
+                SetToHands(obj);
                 return true;
             }
             return false;
@@ -144,10 +170,12 @@ namespace Deblue.LD48
 
         private void SetToHands(TakebleObject obj)
         {
+            obj.Take();
             obj.transform.position = _objectTakePosition + transform.position;
             obj.transform.SetParent(transform);
             obj.Renderer.sortingLayerID = SortingLayersData.CharactersLayer;
             obj.Renderer.sortingOrder = 10;
+            TakenObject = obj;
         }
 
         private void PutObject(On_Button_Down context)
@@ -164,9 +192,7 @@ namespace Deblue.LD48
             {
                 if (TakenObject.CanPut)
                 {
-                    TakenObject.Put(_objectPutPosition + transform.position);
                     PutToGround();
-                    TakenObject = null;
                     return true;
                 }
             }
@@ -175,10 +201,12 @@ namespace Deblue.LD48
 
         private void PutToGround()
         {
-            TakenObject.transform.position = _objectPutPosition;
+            TakenObject.Put();
+            TakenObject.transform.position = _objectPutPosition + transform.position;
             TakenObject.transform.SetParent(null);
             TakenObject.Renderer.sortingLayerID = SortingLayersData.ObjectsLayer;
             TakenObject.Renderer.sortingOrder = TakenObject.DefoultSortOrder;
+            TakenObject = null;
         }
     }
 }
