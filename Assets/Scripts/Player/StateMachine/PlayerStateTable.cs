@@ -47,10 +47,10 @@ namespace Deblue.LD48
             }
             else if (state == GetState(PlayerStateId.Move))
             {
-                var stairsState = (PlayerMoveState)state;
-                if (stairsState.IsTryEnterOnStairs && _player.Stairs != null)
+                var moveState = (PlayerMoveState)state;
+                if (moveState.IsTryEnterOnStairs)
                 {
-                    SwitchToNextFromAny(PlayerStateId.Move);
+                    SwitchToNextFromAny(PlayerStateId.OnStairs);
                 }
             }
         }

@@ -34,7 +34,7 @@ namespace Deblue.LD48
             InputReciver.SubscribeOnInputAxis(Move);
             _stairs = _executor.Stairs;
 
-            _transform.position = IsOnStairsTop ? _stairs.EnterTopPosition : _stairs.EnterBotPosition;
+            _transform.position = IsOnStairsTop ? _stairs.TopBound : _stairs.BotBound;
         }
 
         public override void DeInit()
@@ -49,11 +49,13 @@ namespace Deblue.LD48
             var deltaY =  direction.y * Time.fixedDeltaTime * _speed; ;
             var newPosition = _transform.position + new Vector3(0, deltaY, 0);
 
-            if (newPosition.y <= _stairs.TopBound.y && newPosition.y >= _stairs.BotBound.y)
+            var isMoveInsideStairs = newPosition.y <= _stairs.TopBound.y && newPosition.y >= _stairs.BotBound.y;
+
+            if (isMoveInsideStairs)
             {
                 _transform.position = newPosition;
             }
-            _isTryExit = direction.x > 0;
+            _isTryExit = direction.x != 0 && (!isMoveInsideStairs);
         }
     }
 }
