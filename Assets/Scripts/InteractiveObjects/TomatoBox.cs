@@ -1,20 +1,41 @@
-﻿namespace Deblue.LD48
+﻿using UnityEngine;
+
+namespace Deblue.LD48
 {
-    public class TomatoBox : InteractiveManyStaters
+    public class TomatoBox : TakebleObjectContainer
     {
-        public override bool CanPut()
+        public override bool CanReturn => _player.TakenObject is Tomato && _tomatoesCount < _tomatoes.Length;
+
+        public override bool CanTake => _tomatoes.Length > 0; 
+
+        protected override bool CanHighlight => _player.TakenObject is Tomato;
+
+        protected Tomato[] _tomatoes = new Tomato[4];
+        protected int _tomatoesCount;
+
+        public override ITakebleObject Take(Vector3 takePosition)
         {
-            return false;
+            _tomatoesCount--;
+            var tomato = _tomatoes[_tomatoesCount];
+            _tomatoes[_tomatoesCount] = null;
+
+            return tomato;
         }
 
-        public override bool CanTake()
+        public override void Return()
         {
-            return false;
+            _tomatoes[_tomatoesCount] = (Tomato)_player.TakenObject;
+            _tomatoesCount++;
         }
 
-        protected override bool CanHighlight()
+        protected override void Highlight()
         {
-            return true;
+            throw new System.NotImplementedException();
+        }
+
+        protected override void StopHighlight()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

@@ -1,20 +1,19 @@
 ﻿namespace Deblue.LD48
 {
-    public class Tomato : InteractiveManyStaters
+    public class Tomato : TakebleObject
     {
-        public override bool CanPut()
+        public override bool CanPut => throw new System.NotImplementedException();
+        public override bool CanTake => throw new System.NotImplementedException();
+        protected override bool CanHighlight => true;
+
+        protected override void Highlight()
         {
-            return false;
+            throw new System.NotImplementedException();
         }
 
-        public override bool CanTake()
+        protected override void StopHighlight()
         {
-            return false;
-        }
-
-        protected override bool CanHighlight()
-        {
-            return true;
+            throw new System.NotImplementedException();
         }
     }
 }

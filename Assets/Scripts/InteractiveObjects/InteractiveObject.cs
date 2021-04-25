@@ -13,48 +13,79 @@ namespace Deblue.LD48
             public Sprite Highlight;
         }
 
-        protected Player _possibleOwner;
-        protected SpriteRenderer _renderer;
+        protected abstract bool CanHighlight { get; }
 
-        protected void Awake()
-        {
-            _renderer = GetComponent<SpriteRenderer>();
-        }
+        public SpriteRenderer Renderer { get; private set; }
+        public int DefoultSortOrder { get; private set; }
+
+        protected Collider2D _collider;
+        protected Player     _player;
 
         protected bool _isHighlight;
         protected bool _isTaken;
 
-        public void OnPlayerEnter(Player player)
+        protected void Awake()
         {
-            if (CanHighlight())
+            _collider = GetComponent<Collider2D>();
+            Renderer = GetComponent<SpriteRenderer>();
+            DefoultSortOrder = Renderer.sortingOrder;
+        }
+
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if (other.TryGetComponent<Player>(out var player))
+            {
+                TryHilight();
+                _player = player;
+            }
+        }
+
+        private void OnTriggerExit2D(Collider2D other)
+        {
+            if (other.TryGetComponent<Player>(out var player))
+            {
+                _player = null;
+                StopHighlight();
+            }
+        }
+
+        protected void TryHilight()
+        {
+            if (CanHighlight)
             {
                 Highlight();
             }
-            _possibleOwner = player;
         }
 
-        public void OnPlayerExit()
-        {
-            _possibleOwner = null;
-            OverHighlight();
-        }
+        protected abstract void Highlight();
+        protected abstract void StopHighlight();
+    }
 
-        public abstract bool CanTake();
-        public void Take()
+    public abstract class TakebleObject : InteractiveObject, ITakebleObject
+    {
+        public abstract bool CanPut { get; }
+        public abstract bool CanTake { get; }
+
+        public ITakebleObject Take(Vector3 takePosition)
         {
             _isTaken = true;
-            transform.SetParent(_possibleOwner.transform);
+            StopHighlight();
+            return this;
         }
 
-        public abstract bool CanPut();
-        public void Put()
+        public void Put(Vector3 putPosition)
         {
             _isTaken = false;
-            transform.SetParent(null);
+            TryHilight();
         }
+    }
 
-        protected abstract bool CanHighlight();
-        protected abstract void Highlight();
-        protected abstract void OverHighlight();
+    public abstract class TakebleObjectContainer : InteractiveObject, ITakebleObjectContainer
+    {
+        public abstract bool CanReturn { get; }
+        public abstract bool CanTake { get; }
+
+        public abstract ITakebleObject Take(Vector3 takePosition);
+        public abstract void Return();
     }
 }

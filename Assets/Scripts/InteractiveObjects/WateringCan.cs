@@ -1,20 +1,23 @@
-﻿namespace Deblue.LD48
+﻿using UnityEngine;
+
+namespace Deblue.LD48
 {
-    public class WateringCan : InteractiveOneState
+    public class WateringCan : TakebleObject
     {
-        public override bool CanPut()
+        public override bool CanPut => _isTaken;
+        public override bool CanTake => CanHighlight;
+        protected override bool CanHighlight => !_isTaken;
+
+        [SerializeField] protected SpritePair _sprites;
+
+        protected sealed override void StopHighlight()
         {
-            return _isTaken;
+            Renderer.sprite = _sprites.Standart;
         }
 
-        public override bool CanTake()
+        protected sealed override void Highlight()
         {
-            return CanHighlight();
-        }
-
-        protected override bool CanHighlight()
-        {
-            return !_isTaken;
+            Renderer.sprite = _sprites.Highlight;
         }
     }
 }

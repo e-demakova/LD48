@@ -24,11 +24,11 @@ namespace Deblue.LD48
 
         private IEnumerator TestGameState()
         {
-            var lastStateTime = Time.realtimeSinceStartup;
+            var lastStateTime = 0f;
 
             while (true)
             {
-                if (Time.realtimeSinceStartup > lastStateTime + 3f)
+                if (Time.realtimeSinceStartup > lastStateTime + 20f)
                 {
                     lastStateTime = Time.realtimeSinceStartup;
                     switch (_state)

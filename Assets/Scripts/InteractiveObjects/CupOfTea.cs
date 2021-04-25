@@ -1,20 +1,25 @@
-﻿namespace Deblue.LD48
+﻿using UnityEngine;
+
+namespace Deblue.LD48
 {
-    public class CupOfTea : InteractiveManyStaters
+    public class CupOfTea : TakebleObject
     {
-        public override bool CanPut()
+        [SerializeField] protected SpritePair _sprites;
+
+        public override bool CanPut => throw new System.NotImplementedException();
+
+        public override bool CanTake => throw new System.NotImplementedException();
+
+        protected override bool CanHighlight => throw new System.NotImplementedException();
+
+        protected sealed override void StopHighlight()
         {
-            return _isTaken;
+            Renderer.sprite = _sprites.Standart;
         }
 
-        public override bool CanTake()
+        protected sealed override void Highlight()
         {
-            return CanHighlight();
-        }
-
-        protected override bool CanHighlight()
-        {
-            return !_isTaken;
+            Renderer.sprite = _sprites.Highlight;
         }
     }
 }

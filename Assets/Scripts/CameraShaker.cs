@@ -7,8 +7,8 @@ namespace Deblue.LD48
     [RequireComponent(typeof(CinemachineVirtualCamera))]
     public class CameraShaker : UniqMono<CameraShaker>
     {
-        [SerializeField] private float _intensity = 0.7f;
-        [SerializeField] private float _shakingTime = 0.3f;
+        public float Intensity = 0.7f;
+        public float ShakingTime = 0.3f;
 
         private CinemachineBasicMultiChannelPerlin _camera;
         private Coroutine _shakingCoroutine;
@@ -37,8 +37,8 @@ namespace Deblue.LD48
 
         private IEnumerator Shaking()
         {
-            _camera.m_AmplitudeGain = _intensity;
-            yield return new WaitForSeconds(_shakingTime);
+            _camera.m_AmplitudeGain = Intensity;
+            yield return new WaitForSeconds(ShakingTime);
             _camera.m_AmplitudeGain = 0f;
         }
     }

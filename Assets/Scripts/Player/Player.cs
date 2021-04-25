@@ -10,13 +10,15 @@ namespace Deblue.LD48
     [RequireComponent(typeof(Rigidbody2D))]
     public class Player : MonoBehaviour
     {
-        public InteractiveObject TakenObject { get; private set; }
+        public TakebleObject TakenObject { get; private set; }
         public Stairs Stairs { get; private set; }
         public float Speed => _speed;
         public bool IsHoldObject => TakenObject != null;
         public bool IsTalk { get; private set; }
 
         [SerializeField] private float _speed;
+        [SerializeField] private Vector3 _objectTakePosition;
+        [SerializeField] private Vector3 _objectPutPosition;
 
         private InteractiveObject _nearObject;
 
@@ -36,7 +38,7 @@ namespace Deblue.LD48
             DialogSwitcher.Events.SubscribeOnDialogEnd(OnDialogEnd);
 
 
-            InputReciver.SubscribeOnInput<On_Button_Down>(TryTakeOrPutObject, KeyCode.F);
+            InputReciver.SubscribeOnInput<On_Button_Down>(InteractWithObject, KeyCode.F);
         }
 
         private void OnDisable()
@@ -44,7 +46,7 @@ namespace Deblue.LD48
             DialogSwitcher.Events.UnsubscribeOnDialogStart(OnDialogStart);
             DialogSwitcher.Events.UnsubscribeOnDialogEnd(OnDialogEnd);
 
-            InputReciver.UnsubscribeOnInput<On_Button_Down>(TryTakeOrPutObject, KeyCode.F);
+            InputReciver.UnsubscribeOnInput<On_Button_Down>(InteractWithObject, KeyCode.F);
         }
 
         private void FixedUpdate()
@@ -57,7 +59,6 @@ namespace Deblue.LD48
         {
             if (other.TryGetComponent<InteractiveObject>(out var obj))
             {
-                obj.OnPlayerEnter(this);
                 _nearObject = obj;
             }
             else if (other.TryGetComponent<Stairs>(out var stairs))
@@ -70,9 +71,19 @@ namespace Deblue.LD48
         {
             if (other.TryGetComponent<InteractiveObject>(out var obj))
             {
-                _nearObject?.OnPlayerExit();
                 _nearObject = null;
             }
+            else if (other.TryGetComponent<Stairs>(out var stairs))
+            {
+                Stairs = null;
+            }
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawCube(transform.position + _objectPutPosition, Vector3.one * 0.02f);
+            Gizmos.DrawCube(transform.position + _objectTakePosition, Vector3.one * 0.02f);
         }
 
         private void OnDialogStart(Dialog_Start context)
@@ -99,20 +110,44 @@ namespace Deblue.LD48
             InputReciver.SubscribeOnInput<On_Button_Down>(EnterDialog, KeyCode.E);
         }
 
-        private void TryTakeOrPutObject(On_Button_Down context)
+        private void InteractWithObject(On_Button_Down context)
         {
-            TryPutObject();
-            if (_nearObject == null || IsHoldObject)
+            var takebleObj = _nearObject as TakebleObject;
+            if (takebleObj != null || _nearObject == null)
             {
-                return;
+                TryPutObject();
             }
-            if (_nearObject.CanTake())
+            if (takebleObj != null)
             {
-                _nearObject.Take();
-                TakenObject = _nearObject;
-                _nearObject = null;
-                    Debug.Log("Take");
+                if (TryTakeObject(takebleObj))
+                {
+                    _nearObject = null;
+                }
             }
+        }
+
+        private bool TryTakeObject(TakebleObject obj)
+        {
+            if (obj == null || IsHoldObject)
+            {
+                return false;
+            }
+            if (obj.CanTake)
+            {
+                obj.Take(_objectTakePosition + transform.position);
+                SetToHands(obj);
+                TakenObject = obj;
+                return true;
+            }
+            return false;
+        }
+
+        private void SetToHands(TakebleObject obj)
+        {
+            obj.transform.position = _objectTakePosition + transform.position;
+            obj.transform.SetParent(transform);
+            obj.Renderer.sortingLayerID = SortingLayersData.CharactersLayer;
+            obj.Renderer.sortingOrder = 10;
         }
 
         private void PutObject(On_Button_Down context)
@@ -127,15 +162,23 @@ namespace Deblue.LD48
         {
             if (TakenObject != null)
             {
-                if (TakenObject.CanPut())
+                if (TakenObject.CanPut)
                 {
-                    TakenObject.Put();
+                    TakenObject.Put(_objectPutPosition + transform.position);
+                    PutToGround();
                     TakenObject = null;
-                    Debug.Log("Put");
                     return true;
                 }
             }
             return false;
+        }
+
+        private void PutToGround()
+        {
+            TakenObject.transform.position = _objectPutPosition;
+            TakenObject.transform.SetParent(null);
+            TakenObject.Renderer.sortingLayerID = SortingLayersData.ObjectsLayer;
+            TakenObject.Renderer.sortingOrder = TakenObject.DefoultSortOrder;
         }
     }
 }
