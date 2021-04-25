@@ -5,10 +5,12 @@ using Deblue.InputSystem;
 
 namespace Deblue.LD48
 {
+    [RequireComponent(typeof(Collider2D))]
     public class DialogRequester : MonoBehaviour
     {
-        [SerializeField] private int      _uniqDialogsCount;
-        [SerializeField] private DialogSO _defoultDialog;
+        [SerializeField] private DialogSO[] _dialogs;
+        [SerializeField] private int        _unlockedDialogs;
+        [SerializeField] private int        _currentDialog;
 
         private void OnTriggerEnter2D(Collider2D other)
         {
@@ -26,14 +28,18 @@ namespace Deblue.LD48
             }
         }
 
-        private void StartDialog(On_Button_Down context)
+        public void UnlockDialog()
         {
-
+            _unlockedDialogs++;
         }
 
-        protected void RequestDialog(DialogSO dialog)
+        private void StartDialog(On_Button_Down context)
         {
-            DialogSwitcher.StartDialog(dialog);
+            if (_currentDialog != _unlockedDialogs)
+            {
+                DialogSwitcher.StartDialog(_dialogs[_currentDialog]);
+                _currentDialog++;
+            }
         }
     }
 }

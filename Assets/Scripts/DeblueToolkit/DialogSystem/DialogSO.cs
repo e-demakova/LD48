@@ -8,6 +8,7 @@ namespace Deblue.DialogSystem
     public class DialogSO : ScriptableObject
     {
         [SerializeField] protected Replica[] _elements;
+
         [NonSerialized] protected int _elementIndex = -1;
 
         public void Init()

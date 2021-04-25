@@ -7,9 +7,10 @@ namespace Deblue.DialogSystem
     public class DialogSwitcher : UniqMono<DialogSwitcher>
     {
         public static IDialogSwitcherEvents Events => _events;
+
         private static DialogSwitcherEvents _events = new DialogSwitcherEvents();
 
-        private static DialogSO            _currentDialog;
+        private static DialogSO _currentDialog;
 
         public static void StartDialog(DialogSO dialog)
         {

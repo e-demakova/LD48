@@ -1,14 +1,16 @@
-﻿using UnityEngine;
-using TMPro;
+﻿using UnityEngine.UI;
+using UnityEngine;
 
-using Deblue.ObservingSystem.Events;
+using TMPro;
 
 namespace Deblue.DialogSystem
 {
     [RequireComponent(typeof(Animator))]
     public class DialogVisualization : MonoBehaviour
     {
-        [SerializeField] private TextMeshProUGUI _dialogText;
+        [SerializeField] private TextMeshProUGUI  _dialogText;
+        [SerializeField] private Image            _character;
+        [SerializeField] private CharactersDataSO _charactersData;
 
         private int IsOpen = Animator.StringToHash("IsOpen");
         private Animator _animator;
@@ -45,6 +47,8 @@ namespace Deblue.DialogSystem
         private void VisualizeNewReplica(Replica_Switch context)
         {
             _dialogText.text = context.Replica.Text;
+            var data = _charactersData.GetData(context.Replica.Character);
+            _character.sprite = data.Icon;
         }
     }
 }
