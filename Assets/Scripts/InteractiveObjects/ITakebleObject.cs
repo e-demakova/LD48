@@ -1,7 +1,12 @@
-﻿using UnityEngine;
-
-namespace Deblue.LD48
+﻿namespace Deblue.LD48
 {
+    public interface IReactionObject
+    {
+        bool CanReact { get; }
+
+        void React();
+    }
+
     public interface ITakebleObject
     {
         bool CanPut { get; }

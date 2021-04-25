@@ -35,8 +35,9 @@ namespace Deblue.LD48
         {
             if (other.TryGetComponent<Player>(out var player))
             {
-                TryHilight();
                 _player = player;
+                _player.AddObject(this);
+                TryHilight();
             }
         }
 
@@ -44,7 +45,8 @@ namespace Deblue.LD48
         {
             if (other.TryGetComponent<Player>(out var player))
             {
-                _player = null;
+                //_player = null;
+                _player.RemoveObject(this);
                 StopHighlight();
             }
         }

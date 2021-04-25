@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+
+using UnityEngine;
 
 using Deblue.FSM;
 using Deblue.InputSystem;
@@ -20,7 +22,7 @@ namespace Deblue.LD48
         [SerializeField] private Vector3 _objectTakePosition;
         [SerializeField] private Vector3 _objectPutPosition;
 
-        private InteractiveObject _nearObject;
+        private List<InteractiveObject> _nearObjects = new List<InteractiveObject>(10);
 
         private StateMachine _stateMachine = new StateMachine();
         private IStatesTable _statesTable;
@@ -56,11 +58,12 @@ namespace Deblue.LD48
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.TryGetComponent<InteractiveObject>(out var obj))
+            /*if (other.TryGetComponent<InteractiveObject>(out var obj))
             {
-                _nearObject = obj;
+                _nearObjects.Add(obj);
             }
-            else if (other.TryGetComponent<Stairs>(out var stairs))
+            else*/
+            if (other.TryGetComponent<Stairs>(out var stairs))
             {
                 Stairs = stairs;
             }
@@ -68,11 +71,12 @@ namespace Deblue.LD48
 
         private void OnTriggerExit2D(Collider2D other)
         {
-            if (other.TryGetComponent<InteractiveObject>(out var obj))
+            /*if (other.TryGetComponent<InteractiveObject>(out var obj))
             {
-                _nearObject = null;
+                _nearObjects.Remove(obj);
             }
-            else if (other.TryGetComponent<Stairs>(out var stairs))
+            else*/
+            if (other.TryGetComponent<Stairs>(out var stairs))
             {
                 Stairs = null;
             }
@@ -83,6 +87,16 @@ namespace Deblue.LD48
             Gizmos.color = Color.red;
             Gizmos.DrawCube(transform.position + _objectPutPosition, Vector3.one * 0.02f);
             Gizmos.DrawCube(transform.position + _objectTakePosition, Vector3.one * 0.02f);
+        }
+
+        public void AddObject(InteractiveObject obj)
+        {
+            _nearObjects.Add(obj);
+        }
+
+        public void RemoveObject(InteractiveObject obj)
+        {
+            _nearObjects.Remove(obj);
         }
 
         private void OnDialogStart(Dialog_Start context)
@@ -111,30 +125,71 @@ namespace Deblue.LD48
 
         private void InteractWithObject(On_Button_Down context)
         {
-            var takebleObj = _nearObject as TakebleObject;
-            if (takebleObj != null || _nearObject == null)
+            if (_nearObjects.Count == 0)
             {
                 TryPutObject();
-            }
-
-            if (IsHoldObject)
-            {
                 return;
             }
 
-            if (takebleObj != null)
+            TakebleObjectContainer objContainer;
+
+            for (int i = 0; i < _nearObjects.Count; i++)
             {
-                if (TryTakeObject(takebleObj))
+                objContainer = _nearObjects[i] as TakebleObjectContainer;
+
+                if (objContainer != null)
                 {
-                    _nearObject = null;
+                    if (objContainer.CanReturn)
+                    {
+                        objContainer.Return();
+                        TakenObject = null;
+                        return;
+                    }
                 }
             }
-            var objContainer = _nearObject as TakebleObjectContainer;
-            if (objContainer != null)
+
+            TakebleObject takebleObj;
+            IReactionObject reactObj;
+
+            for (int i = 0; i < _nearObjects.Count; i++)
             {
-                if (TryTakeObject(takebleObj))
+                reactObj = _nearObjects[i] as IReactionObject;
+
+                if (reactObj != null)
                 {
-                    _nearObject = null;
+                    if (reactObj.CanReact)
+                    {
+                        reactObj.React();
+                        return;
+                    }
+                }
+            }
+
+            for (int i = 0; i < _nearObjects.Count; i++)
+            {
+                takebleObj = _nearObjects[i] as TakebleObject;
+                objContainer = _nearObjects[i] as TakebleObjectContainer;
+
+                TryPutObject();
+                if (IsHoldObject)
+                {
+                    return;
+                }
+
+                if (objContainer != null)
+                {
+                    if (TryReciveObject(objContainer))
+                    {
+                        return;
+                    }
+                }
+                else if (takebleObj != null)
+                {
+                    if (TryTakeObject(takebleObj))
+                    {
+                        _nearObjects.Remove(takebleObj);
+                        return;
+                    }
                 }
             }
         }
@@ -153,7 +208,7 @@ namespace Deblue.LD48
             return false;
         }
 
-        private bool TryReciveObjest(TakebleObjectContainer objContainer)
+        private bool TryReciveObject(TakebleObjectContainer objContainer)
         {
             if (objContainer == null)
             {
@@ -176,14 +231,6 @@ namespace Deblue.LD48
             obj.Renderer.sortingLayerID = SortingLayersData.CharactersLayer;
             obj.Renderer.sortingOrder = 10;
             TakenObject = obj;
-        }
-
-        private void PutObject(On_Button_Down context)
-        {
-            if (_nearObject == null && IsHoldObject)
-            {
-                TryPutObject();
-            }
         }
 
         private bool TryPutObject()

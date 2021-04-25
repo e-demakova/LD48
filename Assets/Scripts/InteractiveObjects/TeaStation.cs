@@ -6,7 +6,7 @@ namespace Deblue.LD48
     {
         public override bool CanReturn => _cupTaken && _player.TakenObject is CupOfTea;
         public override bool CanTake => !_cupTaken;
-        protected override bool CanHighlight => !_cupTaken;
+        protected override bool CanHighlight => CanTake || CanReturn;
 
         [SerializeField] private CupOfTea _cup;
         [SerializeField] private SpritePair _withTea;
@@ -17,13 +17,17 @@ namespace Deblue.LD48
         public override TakebleObject Take()
         {
             _cupTaken = true;
+            _cup.gameObject.SetActive(true);
+            Renderer.sprite = _withoutTea.Highlight;
             return _cup;
         }
 
         public override void Return()
         {
             _cupTaken = false;
-            _cup = (CupOfTea)_player.TakenObject;
+            _cup.transform.SetParent(transform);
+            _cup.gameObject.SetActive(false);
+            Renderer.sprite = _withTea.Highlight;
         }
 
         protected override void Highlight()

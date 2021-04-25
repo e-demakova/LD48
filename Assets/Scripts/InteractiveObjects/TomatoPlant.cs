@@ -2,20 +2,19 @@
 
 namespace Deblue.LD48
 {
-    public class TomatoPlant : TakebleObjectContainer
+    public class TomatoPlant : TakebleObjectContainer, IReactionObject
     {
+        public bool CanReact => _player.TakenObject is WateringCan && _currentState < _growStates.Length - 2;
         public override bool CanReturn => false;
-
-        public override bool CanTake => _currentState == _growStates.Length - 1;
-
-        protected override bool CanHighlight => CanTake || _player.TakenObject is WateringCan;
+        public override bool CanTake => _currentState == _growStates.Length - 2;
+        protected override bool CanHighlight => CanTake || CanReact;
 
         [SerializeField] private SpritePair[] _growStates;
         [SerializeField] private Tomato       _tomato;
 
         private int _currentState;
 
-        public void Interact()
+        public void React()
         {
             //TODO: Сделать таймер поливания/роста.
             if(_player.TakenObject is WateringCan)
@@ -32,8 +31,11 @@ namespace Deblue.LD48
 
         public override TakebleObject Take()
         {
+            _tomato.gameObject.SetActive(true);
             var tomato = _tomato;
             _tomato = null;
+            _currentState++;
+            Renderer.sprite = _growStates[_currentState].Highlight;
             return tomato;
         }
 
