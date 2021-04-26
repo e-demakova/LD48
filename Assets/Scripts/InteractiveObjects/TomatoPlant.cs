@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+using Deblue.ObservingSystem;
+
 namespace Deblue.LD48
 {
     public class TomatoPlant : TakebleObjectContainer, IReactionObject
@@ -8,6 +10,8 @@ namespace Deblue.LD48
         public override bool CanReturn => false;
         public override bool CanTake => _currentState == _growStates.Length - 2;
         protected override bool CanHighlight => CanTake || CanReact;
+
+        public Handler<Tomato_Grown> TomatoGrown = new Handler<Tomato_Grown>();
 
         [SerializeField] private SpritePair[] _growStates;
         [SerializeField] private Tomato       _tomato;
@@ -20,6 +24,7 @@ namespace Deblue.LD48
             if(_player.TakenObject is WateringCan)
             {
                 _currentState++;
+                TomatoGrown.Raise(new Tomato_Grown(_currentState));
                 Renderer.sprite = _growStates[_currentState].Highlight;
             }
         }
@@ -36,6 +41,7 @@ namespace Deblue.LD48
             _tomato = null;
             _currentState++;
             Renderer.sprite = _growStates[_currentState].Highlight;
+            _keyView.enabled = false;
             return tomato;
         }
 
@@ -47,6 +53,16 @@ namespace Deblue.LD48
         protected override void StopHighlight()
         {
             Renderer.sprite = _growStates[_currentState].Standart;
+        }
+    }
+
+    public readonly struct Tomato_Grown
+    {
+        public readonly int State;
+
+        public Tomato_Grown(int state)
+        {
+            State = state;
         }
     }
 }

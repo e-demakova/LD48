@@ -18,11 +18,12 @@ namespace Deblue.LD48
         public SpriteRenderer Renderer { get; private set; }
         public int DefoultSortOrder { get; private set; }
 
+        [SerializeField] protected SpriteRenderer _keyView;
+
         protected Collider2D _collider;
         protected Player     _player;
-
-        protected bool _isHighlight;
-        protected bool _isTaken;
+        protected bool       _isHighlight;
+        protected bool       _isTaken;
 
         protected void Awake()
         {
@@ -45,8 +46,8 @@ namespace Deblue.LD48
         {
             if (other.TryGetComponent<Player>(out var player))
             {
-                //_player = null;
                 _player.RemoveObject(this);
+                _keyView.enabled = false;
                 StopHighlight();
             }
         }
@@ -55,6 +56,7 @@ namespace Deblue.LD48
         {
             if (CanHighlight)
             {
+                _keyView.enabled = true;
                 Highlight();
             }
         }

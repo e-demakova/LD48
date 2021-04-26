@@ -6,7 +6,7 @@ namespace Deblue.LD48
     {
         public override bool CanReturn => _player.TakenObject is Tomato && _tomatoesCount < _tomatoes.Length;
         public override bool CanTake => _tomatoesCount > 0;
-        protected override bool CanHighlight => _player.TakenObject is Tomato;
+        protected override bool CanHighlight => CanReturn || CanTake;
 
         [SerializeField] private SpritePair[] _sprites;
 

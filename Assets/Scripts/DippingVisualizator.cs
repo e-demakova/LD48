@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace Deblue.LD48
 {
@@ -6,18 +7,22 @@ namespace Deblue.LD48
     {
         [SerializeField] private CameraShaker _shaker;
 
-        [SerializeField] private Animator _background;
-        [SerializeField] private Animator _midground;
-        [SerializeField] private Animator _bunker;
+        [SerializeField] private Animator   _background;
+        [SerializeField] private Animator   _midground;
+        [SerializeField] private Animator   _bunker;
+        [SerializeField] private Animator[] _rayes;
 
         private static int _dipperTrigget = Animator.StringToHash("Deeper");
         private static int _blinkTrigget = Animator.StringToHash("Blink");
         private static int _blinkLongTrigget = Animator.StringToHash("LongBlink");
         private static int _endTrigget = Animator.StringToHash("End");
+        private static int _isActive = Animator.StringToHash("IsActive");
 
         private float _timeToNextShake;
         private float _lastShakeTime;
         private bool  _isOver;
+
+        private Coroutine _activeRay;
 
         private void OnEnable()
         {
@@ -33,7 +38,8 @@ namespace Deblue.LD48
         {
             if (Time.realtimeSinceStartup >= _timeToNextShake + _lastShakeTime && !_isOver)
             {
-                _timeToNextShake = Random.Range(4, 13);
+                ShowRay();
+                _timeToNextShake = Random.Range(3f, 5f);
                 _lastShakeTime = Time.realtimeSinceStartup;
 
                 _shaker.ShakingTime = 0.6f;
@@ -46,6 +52,8 @@ namespace Deblue.LD48
 
         private void VisualizeNewState(Game_State_Change context)
         {
+            ShowRay();
+            _lastShakeTime = Time.realtimeSinceStartup;
             _shaker.ShakingTime = 1f;
             _shaker.Intensity = 1f;
             _shaker.StartShake();
@@ -62,6 +70,40 @@ namespace Deblue.LD48
             {
                 StartBlink();
             }
+        }
+
+        private void ShowRay()
+        {
+            if (_activeRay == null)
+            {
+                _activeRay = StartCoroutine(ShowingRay());
+            }
+        }
+
+        private IEnumerator ShowingRay()
+        {
+            int index1, index2;
+
+            index1 = index2 = Random.Range(0, _rayes.Length);
+            _rayes[index1].SetBool(_isActive, true);
+
+            if (Random.value < 0.5f)
+            {
+                while (index1 == index2)
+                {
+                    index2 = Random.Range(0, _rayes.Length);
+                }
+                _rayes[index2].SetBool(_isActive, true);
+            }
+
+            var startTime = Time.realtimeSinceStartup;
+            while (Time.realtimeSinceStartup < startTime + 1f)
+            {
+                yield return new WaitForFixedUpdate();
+            }
+            _rayes[index1].SetBool(_isActive, false);
+            _rayes[index2].SetBool(_isActive, false);
+            _activeRay = null;
         }
 
         private void StartBlink()

@@ -12,17 +12,39 @@ namespace Deblue.LD48
         private static GameState _state;
         public static GameState State => _state;
 
-        protected override void MyAwake()
-        {
-            StartCoroutine(TestGameState());
-        }
+        private Coroutine _tastGameStateChanger;
 
         private void OnDestroy()
         {
             _events.ClearSubscribers();
         }
 
-        private IEnumerator TestGameState()
+        public void ChangeStateToNext()
+        {
+            switch (_state)
+            {
+                case GameState.Play:
+                    ChangeState(GameState.Deep);
+                    break;
+
+                case GameState.Deep:
+                    ChangeState(GameState.Deeper);
+                    break;
+
+                case GameState.Deeper:
+                    ChangeState(GameState.AndDeeper);
+                    break;
+
+                case GameState.AndDeeper:
+                    ChangeState(GameState.Over);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        private IEnumerator TestGameStateChanging()
         {
             var lastStateTime = 0f;
 
@@ -33,27 +55,13 @@ namespace Deblue.LD48
                     lastStateTime = Time.realtimeSinceStartup;
                     switch (_state)
                     {
-                        case GameState.Play:
-                            ChangeState(GameState.Deep);
-                            break;
-
-                        case GameState.Deep:
-                            ChangeState(GameState.Deeper);
-                            break;
-
-                        case GameState.Deeper:
-                            ChangeState(GameState.AndDeeper);
-                            break;
-
                         case GameState.AndDeeper:
                             ChangeState(GameState.Over);
-                            StopAllCoroutines();
-                            break;
-
-                        case GameState.Over:
+                            StopCoroutine(_tastGameStateChanger);
                             break;
 
                         default:
+                            ChangeStateToNext();
                             break;
                     }
                 }
