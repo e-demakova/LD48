@@ -6,7 +6,7 @@ namespace Deblue.DialogSystem
     public class Replica
     {
         [TextArea(3, 10)]
-        public string    Text;
+        public string      Text;
         public CharacterID Character;
     }
 

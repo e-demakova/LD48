@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+using Deblue.ObservingSystem;
+
 namespace Deblue.LD48
 {
     public class TomatoBox : TakebleObjectContainer
@@ -7,6 +9,8 @@ namespace Deblue.LD48
         public override bool CanReturn => _player.TakenObject is Tomato && _tomatoesCount < _tomatoes.Length;
         public override bool CanTake => _tomatoesCount > 0;
         protected override bool CanHighlight => CanReturn || CanTake;
+
+        public Handler<Box_Full> BoxFull = new Handler<Box_Full>();
 
         [SerializeField] private SpritePair[] _sprites;
 
@@ -31,6 +35,10 @@ namespace Deblue.LD48
             _tomatoes[_tomatoesCount] = tomato;
             _tomatoesCount++;
             Renderer.sprite = _sprites[_tomatoesCount].Highlight;
+            if(_tomatoesCount == _tomatoes.Length)
+            {
+                BoxFull.Raise(new Box_Full());
+            }
         }
 
         protected override void Highlight()
@@ -42,5 +50,9 @@ namespace Deblue.LD48
         {
             Renderer.sprite = _sprites[_tomatoesCount].Standart;
         }
+    }
+
+    public struct Box_Full
+    {
     }
 }

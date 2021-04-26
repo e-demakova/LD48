@@ -5,6 +5,7 @@ using TMPro;
 
 namespace Deblue.DialogSystem
 {
+    [DefaultExecutionOrder(-900)]
     [RequireComponent(typeof(Animator))]
     public class DialogVisualization : MonoBehaviour
     {

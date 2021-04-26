@@ -8,10 +8,12 @@ using Deblue.DialogSystem;
 
 namespace Deblue.LD48
 {
+    [RequireComponent(typeof(Animator))]
     [RequireComponent(typeof(Collider2D))]
     [RequireComponent(typeof(Rigidbody2D))]
     public class Player : MonoBehaviour
     {
+        public Animator Animator { get; private set; }
         public TakebleObject TakenObject { get; private set; }
         public Stairs Stairs { get; private set; }
         public float Speed => _speed;
@@ -29,6 +31,7 @@ namespace Deblue.LD48
 
         private void Awake()
         {
+            Animator = GetComponent<Animator>();
             var statesTable = new PlayerStateTable(_stateMachine, this);
             statesTable.Init();
             _statesTable = statesTable;
@@ -97,6 +100,13 @@ namespace Deblue.LD48
         public void RemoveObject(InteractiveObject obj)
         {
             _nearObjects.Remove(obj);
+        }
+
+        public TakebleObject TakeObject()
+        {
+            var obj = TakenObject;
+            TakenObject = null;
+            return obj;
         }
 
         private void OnDialogStart(Dialog_Start context)
@@ -250,6 +260,7 @@ namespace Deblue.LD48
         {
             TakenObject.Put();
             TakenObject.transform.position = _objectPutPosition + transform.position;
+            TakenObject.transform.rotation = TakenObject.DefoultRotation;
             TakenObject.transform.SetParent(null);
             TakenObject.Renderer.sortingLayerID = SortingLayersData.ObjectsLayer;
             TakenObject.Renderer.sortingOrder = TakenObject.DefoultSortOrder;

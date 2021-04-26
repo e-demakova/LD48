@@ -1,27 +1,33 @@
-using System;
-
 using UnityEngine;
 
 using Deblue.DialogSystem;
 using Deblue.InputSystem;
+using Deblue.ObservingSystem;
 
 namespace Deblue.LD48
 {
     [RequireComponent(typeof(Collider2D))]
     public class OldMan : MonoBehaviour
     {
+        public IReadonlyObservLimitProperty<int> CurrentDialog => _currentDialog;
+
         [SerializeField] private SpriteRenderer _avalibleDialogView;
         [SerializeField] private SpriteRenderer _keyView;
         [SerializeField] private DialogSO[]     _dialogs;
+        [SerializeField] private ObservInt      _currentDialog;
         [SerializeField] private int            _unlockedDialogs;
-        [SerializeField] private int            _currentDialog;
 
-        private Type   _requiredObject;
         private Player _player;
+
+        private void Awake()
+        {
+            _currentDialog = new ObservInt(0, _dialogs.Length);
+            StartDialog();
+        }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.TryGetComponent<Player>(out var player))
+            if (other.TryGetComponent<Player>(out var player) && _currentDialog < _unlockedDialogs)
             {
                 _player = player;
                 InputReciver.SubscribeOnInput<On_Button_Down>(StartDialog, KeyCode.E);
@@ -46,18 +52,26 @@ namespace Deblue.LD48
 
         private void StartDialog(On_Button_Down context)
         {
-            if (_player.TakenObject != null)
+            StartDialog();
+        }
+
+        private void StartDialog()
+        {
+            if (_currentDialog < _unlockedDialogs && !DialogSwitcher.IsInDialg)
             {
-                if (_player.TakenObject.GetType() == _requiredObject)
+                _keyView.enabled = false;
+                DialogSwitcher.StartDialog(_dialogs[(int)_currentDialog]);
+                if (_currentDialog == 5)
                 {
-                    _unlockedDialogs++;
+                    var cup = _player.TakeObject();
+                    cup.gameObject.SetActive(false);
+                    cup.transform.SetParent(transform);
                 }
-            }
-            if (_currentDialog < _unlockedDialogs)
-            {
-                DialogSwitcher.StartDialog(_dialogs[_currentDialog]);
                 _currentDialog++;
-                _avalibleDialogView.enabled = false;
+                if (_currentDialog >= _unlockedDialogs)
+                {
+                    _avalibleDialogView.enabled = false;
+                }
             }
         }
     }

@@ -55,7 +55,7 @@ namespace Deblue.LD48
             {
                 _transform.position = newPosition;
             }
-            _isTryExit = direction.x != 0 && (!isMoveInsideStairs);
+            _isTryExit = direction.x != 0 && (!isMoveInsideStairs || (IsNearOnBound && direction.y == 0));
         }
     }
 }

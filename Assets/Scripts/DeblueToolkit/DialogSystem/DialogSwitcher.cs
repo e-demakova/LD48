@@ -7,6 +7,7 @@ namespace Deblue.DialogSystem
     public class DialogSwitcher : UniqMono<DialogSwitcher>
     {
         public static IDialogSwitcherEvents Events => _events;
+        public static bool IsInDialg { get; private set; }
 
         private static DialogSwitcherEvents _events = new DialogSwitcherEvents();
 
@@ -17,12 +18,14 @@ namespace Deblue.DialogSystem
             _currentDialog = dialog;
             _events.Raise(new Dialog_Start(dialog));
             _currentDialog.Init();
+            IsInDialg = true;
             SwitchReplica();
         }
 
         public static void CloseCurrentDialog()
         {
             _events.Raise(new Dialog_End(_currentDialog));
+            IsInDialg = false;
             _currentDialog = null;
         }
 

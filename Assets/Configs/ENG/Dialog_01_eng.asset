@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d83b90c08395ada48ac481274eb64c03, type: 3}
+  m_Name: Dialog_01_eng
+  m_EditorClassIdentifier: 
+  _elements:
+  - Text: Where did dad go?
+    Character: 1
+  - Text: He went for new plants. We need to grow many different plants in order
+      to be always full.
+    Character: 0
+  - Text: He's always tripping, and today the ground is bouncing so hard that he's
+      sure to will fall all the time.
+    Character: 1
+  - Text: "Haha, your father is really a little awkward. But I wouldn\u2019t worry
+      about him, he\u2019s a professional after all."
+    Character: 0
+  - Text: What is a professional?
+    Character: 1
+  - Text: This is a person who does something very well. Your father devoted his
+      whole life to studying plants, he knows how to find and preserve them.
+    Character: 0
+  - Text: Thanks to him, you and I can admire flowers and eat fresh vegetables.
+    Character: 0
+  - Text: Can I become a professional?
+    Character: 1
+  - Text: If you work hard. You can start by taking a watering can and watering those
+      seedlings that your father planted before leaving.
+    Character: 0
+  - Text: Okay, I'll start right now!
+    Character: 1

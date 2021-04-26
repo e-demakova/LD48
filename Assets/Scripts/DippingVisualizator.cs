@@ -7,10 +7,13 @@ namespace Deblue.LD48
     {
         [SerializeField] private CameraShaker _shaker;
 
-        [SerializeField] private Animator   _background;
-        [SerializeField] private Animator   _midground;
-        [SerializeField] private Animator   _bunker;
-        [SerializeField] private Animator[] _rayes;
+        [SerializeField] private GameObject  _endScreen;
+        [SerializeField] private AudioSource _loudEarth;
+        [SerializeField] private Animator    _background;
+        [SerializeField] private Animator    _midground;
+        [SerializeField] private Animator    _frontground;
+        [SerializeField] private Animator    _bunker;
+        [SerializeField] private Animator[]  _rayes;
 
         private static int _dipperTrigget = Animator.StringToHash("Deeper");
         private static int _blinkTrigget = Animator.StringToHash("Blink");
@@ -54,16 +57,18 @@ namespace Deblue.LD48
         {
             ShowRay();
             _lastShakeTime = Time.realtimeSinceStartup;
-            _shaker.ShakingTime = 1f;
-            _shaker.Intensity = 1f;
+            _shaker.ShakingTime = 2f;
+            _shaker.Intensity = 2f;
             _shaker.StartShake();
-
+            _loudEarth.Play();
             _background.SetTrigger(_dipperTrigget);
             _midground.SetTrigger(_dipperTrigget);
+            _frontground.SetTrigger(_dipperTrigget);
 
             if (context.NewState == GameState.Over)
             {
                 StartLastBlink();
+                _endScreen.SetActive(true);
                 _isOver = true;
             }
             else
@@ -82,9 +87,9 @@ namespace Deblue.LD48
 
         private IEnumerator ShowingRay()
         {
-            int index1, index2;
+            int index1, index2, index3;
 
-            index1 = index2 = Random.Range(0, _rayes.Length);
+            index1 = index2 = index3 = Random.Range(0, _rayes.Length);
             _rayes[index1].SetBool(_isActive, true);
 
             if (Random.value < 0.5f)
@@ -95,6 +100,14 @@ namespace Deblue.LD48
                 }
                 _rayes[index2].SetBool(_isActive, true);
             }
+            if (Random.value < 0.2f)
+            {
+                while (index3 == index2 || index3 == index1)
+                {
+                    index3 = Random.Range(0, _rayes.Length);
+                }
+                _rayes[index3].SetBool(_isActive, true);
+            }
 
             var startTime = Time.realtimeSinceStartup;
             while (Time.realtimeSinceStartup < startTime + 1f)
@@ -103,6 +116,7 @@ namespace Deblue.LD48
             }
             _rayes[index1].SetBool(_isActive, false);
             _rayes[index2].SetBool(_isActive, false);
+            _rayes[index3].SetBool(_isActive, false);
             _activeRay = null;
         }
 

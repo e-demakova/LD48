@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d83b90c08395ada48ac481274eb64c03, type: 3}
+  m_Name: Dialog_06_eng
+  m_EditorClassIdentifier: 
+  _elements:
+  - Text: Thank you, it's better, much better. Tea is always calming.
+    Character: 0
+  - Text: I will go outside and see if dad is almost there, he will be very surprised
+      to see this mountain of earth. I'll tell him everything!
+    Character: 1

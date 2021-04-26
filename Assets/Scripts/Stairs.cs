@@ -5,6 +5,8 @@ namespace Deblue.LD48
     [RequireComponent(typeof(Collider2D))]
     public class Stairs : MonoBehaviour
     {
+        public bool IsBlocked { get; private set; }
+
         public Vector3 BotBound => YToPosition(_botBound);
         public Vector3 TopBound => YToPosition(_topBound);
 
@@ -19,6 +21,16 @@ namespace Deblue.LD48
         [SerializeField] private float _exitBotPosition;
         [SerializeField] private float _exitTopPosition;
 
+        private void Awake()
+        {
+            GameModel.Events.SubscribeOnGameStateChange(CheckIsBlocked);
+        }
+
+        private void OnDestroy()
+        {
+            GameModel.Events.UnsubscribeOnGameStateChange(CheckIsBlocked);
+        }
+
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.white;
@@ -28,6 +40,14 @@ namespace Deblue.LD48
             Gizmos.color = Color.blue;
             Gizmos.DrawCube(YToPosition(_exitTopPosition), Vector3.one * _gizmosWeight);
             Gizmos.DrawCube(YToPosition(_exitBotPosition), Vector3.one * _gizmosWeight);
+        }
+
+        private void CheckIsBlocked(Game_State_Change context)
+        {
+            if(context.NewState == GameState.Deeper)
+            {
+                IsBlocked = true;
+            }
         }
 
         private Vector3 YToPosition(float y)

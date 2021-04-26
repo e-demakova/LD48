@@ -17,6 +17,7 @@ namespace Deblue.LD48
 
         public SpriteRenderer Renderer { get; private set; }
         public int DefoultSortOrder { get; private set; }
+        public Quaternion DefoultRotation { get; private set; }
 
         [SerializeField] protected SpriteRenderer _keyView;
 
@@ -24,12 +25,20 @@ namespace Deblue.LD48
         protected Player     _player;
         protected bool       _isHighlight;
         protected bool       _isTaken;
+        protected bool       _isPlayerNear;
 
         protected void Awake()
         {
             _collider = GetComponent<Collider2D>();
             Renderer = GetComponent<SpriteRenderer>();
             DefoultSortOrder = Renderer.sortingOrder;
+            DefoultRotation = transform.rotation;
+            MyAwake();
+        }
+
+        protected virtual void MyAwake()
+        {
+
         }
 
         private void OnTriggerEnter2D(Collider2D other)
@@ -38,6 +47,7 @@ namespace Deblue.LD48
             {
                 _player = player;
                 _player.AddObject(this);
+                _isPlayerNear = true;
                 TryHilight();
             }
         }
@@ -48,16 +58,21 @@ namespace Deblue.LD48
             {
                 _player.RemoveObject(this);
                 _keyView.enabled = false;
-                StopHighlight();
+                _isPlayerNear = false;
+                TryHilight();
             }
         }
 
         protected void TryHilight()
         {
-            if (CanHighlight)
+            if (CanHighlight && _isPlayerNear)
             {
                 _keyView.enabled = true;
                 Highlight();
+            }
+            else
+            {
+                StopHighlight();
             }
         }
 

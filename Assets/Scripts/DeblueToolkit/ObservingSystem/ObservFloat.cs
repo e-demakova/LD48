@@ -2,8 +2,6 @@
 {
     public class ObservFloat : ObservLimitProperty<float>
     {
-        public static implicit operator ObservFloat(float value) => new ObservFloat(value);
-
         public static explicit operator int(ObservFloat i) => (int)i.Value;
         public static explicit operator float(ObservFloat i) => i.Value;
 
@@ -46,11 +44,11 @@
         public static bool operator >(ObservFloat a, float b) => (a.Value > b);
         public static bool operator <(ObservFloat a, float b) => (a.Value < b);
         
-        public static bool operator >=(ObservFloat a, float b) => (a.Value > b);
-        public static bool operator <=(ObservFloat a, float b) => (a.Value < b);
+        public static bool operator >=(ObservFloat a, float b) => (a.Value >= b);
+        public static bool operator <=(ObservFloat a, float b) => (a.Value <= b);
         
-        public static bool operator >(ObservFloat a, ObservFloat b) => (a.Value >= b.Value);
-        public static bool operator <(ObservFloat a, ObservFloat b) => (a.Value <= b.Value);
+        public static bool operator >(ObservFloat a, ObservFloat b) => (a.Value > b.Value);
+        public static bool operator <(ObservFloat a, ObservFloat b) => (a.Value < b.Value);
         
         public static bool operator >=(ObservFloat a, ObservFloat b) => (a.Value >= b.Value);
         public static bool operator <=(ObservFloat a, ObservFloat b) => (a.Value <= b.Value);

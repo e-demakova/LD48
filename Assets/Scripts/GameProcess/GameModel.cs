@@ -12,7 +12,12 @@ namespace Deblue.LD48
         private static GameState _state;
         public static GameState State => _state;
 
-        private Coroutine _tastGameStateChanger;
+        private Coroutine _testGameStateChanger;
+
+        protected override void MyAwake()
+        {
+            //_testGameStateChanger = StartCoroutine(TestGameStateChanging());
+        }
 
         private void OnDestroy()
         {
@@ -46,18 +51,18 @@ namespace Deblue.LD48
 
         private IEnumerator TestGameStateChanging()
         {
-            var lastStateTime = 0f;
+            var lastStateTime = -4f;
 
             while (true)
             {
-                if (Time.realtimeSinceStartup > lastStateTime + 20f)
+                if (Time.realtimeSinceStartup > lastStateTime + 7f)
                 {
                     lastStateTime = Time.realtimeSinceStartup;
                     switch (_state)
                     {
                         case GameState.AndDeeper:
                             ChangeState(GameState.Over);
-                            StopCoroutine(_tastGameStateChanger);
+                            StopCoroutine(_testGameStateChanger);
                             break;
 
                         default:

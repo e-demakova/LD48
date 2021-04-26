@@ -62,7 +62,7 @@ namespace Deblue.Stats
         {
             if (_statsAmount.TryGetValue(id, out var stat))
             {
-                stat = amount;
+                stat.Value = amount;
             }
         }
 

@@ -2,8 +2,6 @@
 {
     public class ObservInt : ObservLimitProperty<int>
     {
-        public static implicit operator ObservInt(int value) => new ObservInt(value);
-
         public static explicit operator int(ObservInt i) => i.Value;
         public static explicit operator float(ObservInt i) => i.Value;
 
@@ -46,15 +44,20 @@
         public static bool operator >(ObservInt a, int b) => (a.Value > b);
         public static bool operator <(ObservInt a, int b) => (a.Value < b);
         
-        public static bool operator >=(ObservInt a, int b) => (a.Value > b);
-        public static bool operator <=(ObservInt a, int b) => (a.Value < b);
+        public static bool operator >=(ObservInt a, int b) => (a.Value >= b);
+        public static bool operator <=(ObservInt a, int b) => (a.Value <= b);
+
+        public static bool operator ==(ObservInt a, int b) => (a.Value == b);
+        public static bool operator !=(ObservInt a, int b) => (a.Value != b);
         
-        public static bool operator >(ObservInt a, ObservInt b) => (a.Value >= b.Value);
-        public static bool operator <(ObservInt a, ObservInt b) => (a.Value <= b.Value);
+        public static bool operator >(ObservInt a, ObservInt b) => (a.Value > b.Value);
+        public static bool operator <(ObservInt a, ObservInt b) => (a.Value < b.Value);
         
         public static bool operator >=(ObservInt a, ObservInt b) => (a.Value >= b.Value);
         public static bool operator <=(ObservInt a, ObservInt b) => (a.Value <= b.Value);
 
+        public static bool operator ==(ObservInt a, ObservInt b) => (a.Value == b.Value);
+        public static bool operator !=(ObservInt a, ObservInt b) => (a.Value != b.Value);
 
         public ObservInt(int loverLimit, int upperLimit) : base(loverLimit, upperLimit)
         {
