@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
 using Deblue.ObservingSystem;
+using Deblue.Interactive;
 
 namespace Deblue.LD48
 {

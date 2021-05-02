@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+using Deblue.Interactive;
+
 namespace Deblue.LD48
 {
     public class CupOfTea : TakebleObject

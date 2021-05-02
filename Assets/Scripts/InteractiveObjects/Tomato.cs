@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+using Deblue.Interactive;
+
 namespace Deblue.LD48
 {
     //TODO: Создать подкласс TakenObject с базовой реализацие всех методов и свойств.

@@ -29,12 +29,12 @@ namespace Deblue.LD48
 
         private void OnEnable()
         {
-            GameModel.Events.SubscribeOnGameStateChange(VisualizeNewState);
+            LD48GameModel.Events.SubscribeOnGameStateChange(VisualizeNewState);
         }
 
         private void OnDisable()
         {
-            GameModel.Events.UnsubscribeOnGameStateChange(VisualizeNewState);
+            LD48GameModel.Events.UnsubscribeOnGameStateChange(VisualizeNewState);
         }
 
         private void Update()

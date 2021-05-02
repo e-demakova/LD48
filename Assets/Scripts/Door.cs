@@ -18,12 +18,12 @@ namespace Deblue.LD48
             _renderer = GetComponent<SpriteRenderer>();
             Close();
 
-            GameModel.Events.SubscribeOnGameStateChange(BlockDoor);
+            LD48GameModel.Events.SubscribeOnGameStateChange(BlockDoor);
         }
 
         private void OnDestroy()
         {
-            GameModel.Events.UnsubscribeOnGameStateChange(BlockDoor);
+            LD48GameModel.Events.UnsubscribeOnGameStateChange(BlockDoor);
         }
 
         private void OnTriggerEnter2D(Collider2D other)

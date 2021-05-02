@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 
 using Deblue.ObservingSystem;
+using Deblue.Interactive;
 
 namespace Deblue.LD48
 {
@@ -41,7 +42,7 @@ namespace Deblue.LD48
             _timer.UnsubscribeOnChanging(ChangeSliderValue);
         }
 
-        private void ChangeSliderValue(Property_Changed<float> context)
+        private void ChangeSliderValue(Limited_Property_Changed<float> context)
         {
             _slider.value = context.NewValue;
         }

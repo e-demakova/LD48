@@ -1,13 +1,14 @@
 using System.Collections;
 
 using UnityEngine;
+using Deblue.GameProcess;
 
 namespace Deblue.LD48
 {
-    public class GameModel : PersistentMono<GameModel>
+    public class LD48GameModel : PersistentMono<LD48GameModel>
     {
-        public static GlobalGameEvents _events = new GlobalGameEvents();
-        public static IGlobalGameEvents Events => _events;
+        public static GlobalGameEventsLD48 _events = new GlobalGameEventsLD48();
+        public static IGlobalGameEventsLD48 Events => _events;
 
         private static GameState _state;
         public static GameState State => _state;

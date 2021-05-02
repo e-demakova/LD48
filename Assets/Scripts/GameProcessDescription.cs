@@ -13,7 +13,7 @@ namespace Deblue.LD48
         [SerializeField] private TomatoBox     _tomatoBox;
         [SerializeField] private TeaStation    _teaStantion;
         [SerializeField] private OldMan        _oldMan;
-        [SerializeField] private GameModel     _game;
+        [SerializeField] private LD48GameModel     _game;
 
         private int[] _tomatoesStatesCounters = new int[4];
 
@@ -59,7 +59,7 @@ namespace Deblue.LD48
             }
         }
 
-        private void RegistrNewDilaog(Property_Changed<int> context)
+        private void RegistrNewDilaog(Limited_Property_Changed<int> context)
         {
             switch (context.NewValue)
             {

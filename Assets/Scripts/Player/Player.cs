@@ -5,6 +5,7 @@ using UnityEngine;
 using Deblue.FSM;
 using Deblue.InputSystem;
 using Deblue.DialogSystem;
+using Deblue.Interactive;
 
 namespace Deblue.LD48
 {
@@ -13,14 +14,7 @@ namespace Deblue.LD48
     [RequireComponent(typeof(Rigidbody2D))]
     public class Player : MonoBehaviour
     {
-        public Animator Animator { get; private set; }
-        public TakebleObject TakenObject { get; private set; }
-        public Stairs Stairs { get; private set; }
-        public float Speed => _speed;
-        public bool IsHoldObject => TakenObject != null;
-        public bool IsTalk { get; private set; }
-
-        [SerializeField] private float _speed;
+        [SerializeField] private float   _speed;
         [SerializeField] private Vector3 _objectTakePosition;
         [SerializeField] private Vector3 _objectPutPosition;
 
@@ -28,6 +22,13 @@ namespace Deblue.LD48
 
         private StateMachine _stateMachine = new StateMachine();
         private IStatesTable _statesTable;
+
+        public TakebleObject TakenObject { get; private set; }
+        public Stairs        Stairs { get; private set; }
+        public Animator      Animator { get; private set; }
+        public bool          IsTalk { get; private set; }
+        public float         Speed => _speed;
+        public bool          IsHoldObject => TakenObject != null;
 
         private void Awake()
         {
@@ -61,11 +62,6 @@ namespace Deblue.LD48
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            /*if (other.TryGetComponent<InteractiveObject>(out var obj))
-            {
-                _nearObjects.Add(obj);
-            }
-            else*/
             if (other.TryGetComponent<Stairs>(out var stairs))
             {
                 Stairs = stairs;
@@ -74,11 +70,6 @@ namespace Deblue.LD48
 
         private void OnTriggerExit2D(Collider2D other)
         {
-            /*if (other.TryGetComponent<InteractiveObject>(out var obj))
-            {
-                _nearObjects.Remove(obj);
-            }
-            else*/
             if (other.TryGetComponent<Stairs>(out var stairs))
             {
                 Stairs = null;
