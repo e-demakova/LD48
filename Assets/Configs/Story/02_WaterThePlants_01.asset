@@ -10,8 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d343b02446fd7404ab10db5183788de0, type: 3}
-  m_Name: Step_Two
+  m_Name: 02_WaterThePlants_01
   m_EditorClassIdentifier: 
-  StepConditions: []
-  AvalibleCharacters: []
-  _nextLine: {fileID: 0}
+  StepConditions:
+  - {fileID: 0}
+  AvalibleCharacters:
+  - CharacterId: OldMan
+    Dialog: {fileID: 11400000, guid: b7c17fb567179144a96f5b678f017416, type: 2}
+  _nextStep: {fileID: 11400000, guid: 672360c86fcb96b4cad2161ec56c45ff, type: 2}

@@ -13,7 +13,6 @@ namespace Deblue.LD48
         public override bool CanTake => !_cupTaken && _teaReady;
         protected override bool CanHighlight => CanTake || CanReturn || CanReact;
 
-        public Handler<Cup_Taken> CupTaken = new Handler<Cup_Taken>();
         public bool IsAvalible;
 
         [SerializeField] private SpritePair _withTea;
@@ -23,18 +22,17 @@ namespace Deblue.LD48
 
         private bool _cupTaken;
 
+        private ObservFloat _timer = new ObservFloat(0, 9f);
+        private bool        _timerRun;
+        private bool        _teaReady;
+
         public override TakebleObject Take()
         {
             _cupTaken = true;
             _cup.gameObject.SetActive(true);
             Renderer.sprite = _withoutTea.Highlight;
-            CupTaken.Raise(new Cup_Taken());
             return _cup;
         }
-
-        private ObservFloat _timer = new ObservFloat(0, 9f);
-        private bool        _timerRun;
-        private bool        _teaReady;
 
         protected override void MyAwake()
         {
@@ -114,6 +112,4 @@ namespace Deblue.LD48
             StartTimer();
         }
     }
-
-    public readonly struct Cup_Taken { }
 }

@@ -10,12 +10,11 @@ namespace Deblue.LD48
     {
         public bool CanReact => Player.TakenObject is WateringCan &&
                                 _currentState < _growStates.Length - 2 &&
-                                !_timerRun;
+                                !_isGrow;
         public override bool CanReturn => false;
         public override bool CanTake => _currentState == _growStates.Length - 2;
+        public IReadonlyObservProperty<bool> IsGrow => _isGrow;
         protected override bool CanHighlight => CanTake || CanReact;
-
-        public Handler<Tomato_Start_Grow> TomatoGrown = new Handler<Tomato_Start_Grow>();
 
         [SerializeField] private SpritePair[] _growStates;
         [SerializeField] private Tomato       _tomato;
@@ -24,7 +23,7 @@ namespace Deblue.LD48
         private int _currentState;
 
         private ObservFloat _timer = new ObservFloat(0, 40f);
-        private bool        _timerRun;
+        private ObservBool  _isGrow;
 
         protected override void MyAwake()
         {
@@ -59,10 +58,10 @@ namespace Deblue.LD48
 
         private void FixedUpdate()
         {
-            if (_timerRun)
+            if (_isGrow)
             {
                 _timer += Time.fixedDeltaTime;
-            }
+            };
         }
 
         public void React()
@@ -75,16 +74,15 @@ namespace Deblue.LD48
 
         private void StartTimer()
         {
-            TomatoGrown.Raise(new Tomato_Start_Grow(_currentState + 1));
             _timer.Value = 0f;
-            _timerRun = true;
+            _isGrow.Value = true;
             ShowSlider();
             TryHilight();
         }
 
         private void StopTimer(Property_Reached_Upper_Limit context)
         {
-            _timerRun = false;
+            _isGrow.Value = false;
             HideSlider();
 
             _currentState++;

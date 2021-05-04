@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d343b02446fd7404ab10db5183788de0, type: 3}
-  m_Name: Step_One
+  m_Name: 01_GameStart
   m_EditorClassIdentifier: 
-  StepConditions: []
+  StepConditions:
+  - {fileID: 0}
   AvalibleCharacters:
   - CharacterId: OldMan
     Dialog: {fileID: 11400000, guid: ed2ab5fd1960e1e4994c6229ed4b5c21, type: 2}
-  _nextLine: {fileID: 11400000, guid: 39accc5d1c97eea4ab15aaa7c86713f1, type: 2}
+  _nextStep: {fileID: 11400000, guid: 39accc5d1c97eea4ab15aaa7c86713f1, type: 2}
