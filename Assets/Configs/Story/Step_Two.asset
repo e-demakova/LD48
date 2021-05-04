@@ -9,10 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d83b90c08395ada48ac481274eb64c03, type: 3}
-  m_Name: Dialog_04_eng
+  m_Script: {fileID: 11500000, guid: d343b02446fd7404ab10db5183788de0, type: 3}
+  m_Name: Step_Two
   m_EditorClassIdentifier: 
-  _elements:
-  - Text: What was it? Go and see what's on the street... I don't like this rumble,
-      oh how I don't like it.
-    Character: 0
+  StepConditions: []
+  AvalibleCharacters: []
+  _nextLine: {fileID: 0}

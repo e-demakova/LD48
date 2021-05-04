@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0f7ce88b5d281e458dc34db25062a1e, type: 3}
   m_Name: CharactersData
   m_EditorClassIdentifier: 
-  Characters:
-  - CharacterID: 0
+  _charactersData:
+  - CharacterID: OldMan
     Icon: {fileID: 21300000, guid: 560b1ea9d5d391844b39a4095f3da707, type: 3}
     IsPlayer: 0
-  - CharacterID: 1
+  - CharacterID: Boy
     Icon: {fileID: 21300000, guid: 681a90541d6e415489d3e901bdfdd463, type: 3}
     IsPlayer: 1

@@ -8,7 +8,7 @@ namespace Deblue.LD48
 {
     public class TomatoPlant : TakebleObjectContainer, IReactionObject
     {
-        public bool CanReact => _player.TakenObject is WateringCan &&
+        public bool CanReact => Player.TakenObject is WateringCan &&
                                 _currentState < _growStates.Length - 2 &&
                                 !_timerRun;
         public override bool CanReturn => false;
@@ -67,7 +67,7 @@ namespace Deblue.LD48
 
         public void React()
         {
-            if (_player.TakenObject is WateringCan)
+            if (Player.TakenObject is WateringCan)
             {
                 StartTimer();
             }

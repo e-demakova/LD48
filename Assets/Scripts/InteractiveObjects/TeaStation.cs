@@ -9,7 +9,7 @@ namespace Deblue.LD48
     public class TeaStation : TakebleObjectContainer, IReactionObject
     {
         public bool CanReact => !_teaReady && !_timerRun && !_cupTaken && IsAvalible;
-        public override bool CanReturn => _cupTaken && _player.TakenObject is CupOfTea;
+        public override bool CanReturn => _cupTaken && Player.TakenObject is CupOfTea;
         public override bool CanTake => !_cupTaken && _teaReady;
         protected override bool CanHighlight => CanTake || CanReturn || CanReact;
 

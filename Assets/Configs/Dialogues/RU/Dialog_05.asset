@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d83b90c08395ada48ac481274eb64c03, type: 3}
+  m_Name: Dialog_05
+  m_EditorClassIdentifier: 
+  Choices: []
+  _elements:
+  - _textId: D_0501
+    _characterId: Boy
+    _emotion: 0
+  - _textId: D_0502
+    _characterId: OldMan
+    _emotion: 0
+  - _textId: D_0503
+    _characterId: Boy
+    _emotion: 0
+  - _textId: D_0504
+    _characterId: OldMan
+    _emotion: 0
+  - _textId: D_0505
+    _characterId: Boy
+    _emotion: 0
+  - _textId: D_0506
+    _characterId: Boy
+    _emotion: 0
+  - _textId: D_0507
+    _characterId: OldMan
+    _emotion: 0
+  - _textId: D_0508
+    _characterId: Boy
+    _emotion: 0
+  - _textId: D_0509
+    _characterId: OldMan
+    _emotion: 0
+  _startType: 1

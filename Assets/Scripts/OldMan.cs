@@ -60,7 +60,7 @@ namespace Deblue.LD48
             if (_currentDialog < _unlockedDialogs && !DialogSwitcher.IsInDialg)
             {
                 _keyView.enabled = false;
-                DialogSwitcher.StartDialog(_dialogs[(int)_currentDialog]);
+                //DialogSwitcher.StartDialog(_dialogs[(int)_currentDialog]);
                 if (_currentDialog == 5)
                 {
                     var cup = _player.TakeObject();

@@ -12,7 +12,7 @@ namespace Deblue.LD48
     [RequireComponent(typeof(Animator))]
     [RequireComponent(typeof(Collider2D))]
     [RequireComponent(typeof(Rigidbody2D))]
-    public class Player : MonoBehaviour
+    public class Player : UniqMono<Player>
     {
         [SerializeField] private float   _speed;
         [SerializeField] private Vector3 _objectTakePosition;
@@ -23,14 +23,14 @@ namespace Deblue.LD48
         private StateMachine _stateMachine = new StateMachine();
         private IStatesTable _statesTable;
 
-        public TakebleObject TakenObject { get; private set; }
-        public Stairs        Stairs { get; private set; }
-        public Animator      Animator { get; private set; }
-        public bool          IsTalk { get; private set; }
-        public float         Speed => _speed;
-        public bool          IsHoldObject => TakenObject != null;
+        public static TakebleObject TakenObject { get; private set; }
+        public Stairs Stairs { get; private set; }
+        public Animator Animator { get; private set; }
+        public bool IsTalk { get; private set; }
+        public float Speed => _speed;
+        public bool IsHoldObject => TakenObject != null;
 
-        private void Awake()
+        protected override void MyAwake()
         {
             Animator = GetComponent<Animator>();
             var statesTable = new PlayerStateTable(_stateMachine, this);

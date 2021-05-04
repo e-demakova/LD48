@@ -7,7 +7,7 @@ namespace Deblue.LD48
 {
     public class TomatoBox : TakebleObjectContainer
     {
-        public override bool CanReturn => _player.TakenObject is Tomato && _tomatoesCount < _tomatoes.Length;
+        public override bool CanReturn => Player.TakenObject is Tomato && _tomatoesCount < _tomatoes.Length;
         public override bool CanTake => _tomatoesCount > 0;
         protected override bool CanHighlight => CanReturn || CanTake;
 
@@ -30,7 +30,7 @@ namespace Deblue.LD48
 
         public override void Return()
         {
-            var tomato = (Tomato)_player.TakenObject;
+            var tomato = (Tomato)Player.TakenObject;
             tomato.transform.SetParent(transform);
             tomato.gameObject.SetActive(false);
             _tomatoes[_tomatoesCount] = tomato;
