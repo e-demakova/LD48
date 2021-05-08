@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 761511821801857684}
   - component: {fileID: 2828167962938376139}
   - component: {fileID: 4179421753137774423}
-  - component: {fileID: 5804637549266059190}
+  - component: {fileID: 5905485645048196392}
   m_Layer: 0
   m_Name: Tomato
   m_TagString: Untagged
@@ -179,7 +179,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.00019413233, y: -0.0050415695}
+  m_Offset: {x: -0.0014027357, y: 0.00040090084}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -190,9 +190,9 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.050192237, y: 0.051291525}
+  m_Size: {x: 0.092494726, y: 0.08636534}
   m_EdgeRadius: 0
---- !u!114 &5804637549266059190
+--- !u!114 &5905485645048196392
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -201,10 +201,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 3383037665575479451}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 874125ba612a8f641bdca83b4fc252d4, type: 3}
+  m_Script: {fileID: 11500000, guid: 5f991ca71e4b4b1478e34beed98f6ce7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _keyView: {fileID: 2381265120100795798}
+  _id: Tomato
   _sprites:
     Standart: {fileID: 21300000, guid: 20aba324cc8bd5e48830c2eddbda6636, type: 3}
     Highlight: {fileID: 21300000, guid: 1ae2919c9cf597d41b1fd9fd9f340d52, type: 3}
@@ -333,6 +334,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _keyView: {fileID: 142600913455211692}
+  _conteinedObjectId: Tomato
+  _wateringCanId: WateringCan
   _growStates:
   - Standart: {fileID: -1257518098505440576, guid: 424cf8a873a2a7e40bb4d880c4383cdc,
       type: 3}
@@ -348,7 +351,8 @@ MonoBehaviour:
       type: 3}
   - Standart: {fileID: 21300000, guid: 9c801467a58eac14a95f35fba9851bc2, type: 3}
     Highlight: {fileID: 21300000, guid: 9c801467a58eac14a95f35fba9851bc2, type: 3}
-  _tomato: {fileID: 5804637549266059190}
+  _tomato: {fileID: 5905485645048196392}
+  _slider: {fileID: 0}
 --- !u!1 &6155623422580550279
 GameObject:
   m_ObjectHideFlags: 0

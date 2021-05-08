@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d343b02446fd7404ab10db5183788de0, type: 3}
   m_Name: 04_TomatoesToBox
   m_EditorClassIdentifier: 
-  StepConditions:
-  - {fileID: 0}
+  Conditions:
+  - StepCondition: {fileID: 11400000, guid: 0078a31226b90a0489228aad1bf1315b, type: 2}
+    NextStep: {fileID: 11400000, guid: cbfaf6871d383b94599fcaa85c06116f, type: 2}
   AvalibleCharacters:
   - CharacterId: OldMan
     Dialog: {fileID: 11400000, guid: a26e98e46441f9f45a09f6ed87ba777b, type: 2}
+    IsImportant: 1
   _nextStep: {fileID: 11400000, guid: cbfaf6871d383b94599fcaa85c06116f, type: 2}

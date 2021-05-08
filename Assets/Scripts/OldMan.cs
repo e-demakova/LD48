@@ -17,7 +17,7 @@ namespace Deblue.LD48
         [SerializeField] private ObservInt      _currentDialog;
         [SerializeField] private int            _unlockedDialogs;
 
-        private Player _player;
+        private Boy _player;
 
         private void Awake()
         {
@@ -27,7 +27,7 @@ namespace Deblue.LD48
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.TryGetComponent<Player>(out var player) && _currentDialog < _unlockedDialogs)
+            if (other.TryGetComponent<Boy>(out var player) && _currentDialog < _unlockedDialogs)
             {
                 _player = player;
                 InputReciver.SubscribeOnInput<On_Button_Down>(StartDialog, KeyCode.E);
@@ -37,7 +37,7 @@ namespace Deblue.LD48
 
         private void OnTriggerExit2D(Collider2D other)
         {
-            if (other.TryGetComponent<Player>(out var player))
+            if (other.TryGetComponent<Boy>(out var player))
             {
                 _keyView.enabled = false;
                 InputReciver.UnsubscribeOnInput<On_Button_Down>(StartDialog, KeyCode.E);

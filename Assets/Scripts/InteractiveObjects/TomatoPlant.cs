@@ -8,22 +8,17 @@ namespace Deblue.LD48
 {
     public class TomatoPlant : TakebleObjectContainer, IReactionObject
     {
-        public bool CanReact => Player.TakenObject is WateringCan &&
-                                _currentState < _growStates.Length - 2 &&
-                                !_isGrow;
-        public override bool CanReturn => false;
-        public override bool CanTake => _currentState == _growStates.Length - 2;
         public IReadonlyObservProperty<bool> IsGrow => _isGrow;
-        protected override bool CanHighlight => CanTake || CanReact;
 
-        [SerializeField] private SpritePair[] _growStates;
-        [SerializeField] private Tomato       _tomato;
-        [SerializeField] private Slider       _slider;
+        [SerializeField] private string        _wateringCanId;
+        [SerializeField] private SpritePair[]  _growStates;
+        [SerializeField] private TakebleObject _tomato;
+        [SerializeField] private Slider        _slider;
 
         private int _currentState;
 
-        private ObservFloat _timer = new ObservFloat(0, 40f);
-        private ObservBool  _isGrow;
+        private ObservFloat _timer = new ObservFloat(0, 1f);
+        private ObservBool  _isGrow = new ObservBool();
 
         protected override void MyAwake()
         {
@@ -41,6 +36,14 @@ namespace Deblue.LD48
             _timer.UnsubscribeOnChanging(ChangeSliderValue);
         }
 
+        private void FixedUpdate()
+        {
+            if (_isGrow)
+            {
+                _timer += Time.fixedDeltaTime;
+            };
+        }
+
         private void ChangeSliderValue(Limited_Property_Changed<float> context)
         {
             _slider.value = context.NewValue;
@@ -56,20 +59,17 @@ namespace Deblue.LD48
             _slider.gameObject.SetActive(false);
         }
 
-        private void FixedUpdate()
+        public bool CanReact(IObjectTaker taker)
         {
-            if (_isGrow)
-            {
-                _timer += Time.fixedDeltaTime;
-            };
+            return taker.IsContainObject(_wateringCanId) &&
+                   _currentState < _growStates.Length - 2 &&
+                   !_isGrow;
         }
 
-        public void React()
+        public void React(IObjectTaker taker)
         {
-            if (Player.TakenObject is WateringCan)
-            {
-                StartTimer();
-            }
+            StartTimer();
+            _updated.Raise(new Interact_Object_Updated(this));
         }
 
         private void StartTimer()
@@ -77,7 +77,6 @@ namespace Deblue.LD48
             _timer.Value = 0f;
             _isGrow.Value = true;
             ShowSlider();
-            TryHilight();
         }
 
         private void StopTimer(Property_Reached_Upper_Limit context)
@@ -86,34 +85,59 @@ namespace Deblue.LD48
             HideSlider();
 
             _currentState++;
-            TryHilight();
+            _updated.Raise(new Interact_Object_Updated(this));
         }
 
-        public override void Return()
+        public override void Return(TakebleObject obj)
         {
             throw new System.Exception("Tomato plant can't receive tomato back.");
+        }
+
+        public override bool CanTake(IObjectTaker taker)
+        {
+            return _currentState == _growStates.Length - 2;
         }
 
         public override TakebleObject Take()
         {
             _tomato.gameObject.SetActive(true);
             var tomato = _tomato;
+
             _tomato = null;
             _currentState++;
-            Renderer.sprite = _growStates[_currentState].Highlight;
-            _keyView.enabled = false;
+
             return tomato;
         }
 
-        protected override void Highlight()
+        public override bool CanHighlight(IObjectTaker taker)
+        {
+            return CanTake(taker) || CanReact(taker);
+        }
+
+        public override void Highlight()
         {
             Renderer.sprite = _growStates[_currentState].Highlight;
         }
 
-        protected override void StopHighlight()
+        public override void StopHighlight()
         {
             Renderer.sprite = _growStates[_currentState].Standart;
             _keyView.enabled = false;
+        }
+
+        public bool TryReact(IObjectTaker taker)
+        {
+            if (CanReact(taker))
+            {
+                React(taker);
+                return true;
+            }
+            return false;
+        }
+
+        public override bool CanReturn(string objId)
+        {
+            return false;
         }
     }
 

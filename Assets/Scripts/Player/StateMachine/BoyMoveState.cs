@@ -5,7 +5,7 @@ using Deblue.InputSystem;
 
 namespace Deblue.LD48
 {
-    public sealed class PlayerMoveState : GenericState<Player>
+    public sealed class BoyMoveState : GenericState<Boy>
     {
         public bool IsTryEnterOnStairs => _isTryEnterOnStairs;
 
@@ -17,7 +17,7 @@ namespace Deblue.LD48
         private Transform _transform;
         private float     _speed;
 
-        public PlayerMoveState(Player executor, StateMachine owner) : base(executor, owner)
+        public BoyMoveState(Boy executor, StateMachine owner) : base(executor, owner)
         {
             _animator = executor.Animator;
             _transform = executor.transform;
@@ -52,9 +52,9 @@ namespace Deblue.LD48
                 _animator.SetBool(_isMove, false);
             }
 
-            if (_executor.Stairs != null)
+            var stairs = _executor.Stairs;
+            if (stairs != null)
             {
-                var stairs = _executor.Stairs;
                 if (!stairs.IsBlocked)
                 {
                     var isOnTopBound = Mathf.Abs(stairs.BotBound.y - _transform.position.y) >

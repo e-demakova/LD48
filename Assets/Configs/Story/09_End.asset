@@ -10,7 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d343b02446fd7404ab10db5183788de0, type: 3}
-  m_Name: 08_End
+  m_Name: 09_End
   m_EditorClassIdentifier: 
+  Conditions: []
   AvalibleCharacters: []
   _nextStep: {fileID: 0}

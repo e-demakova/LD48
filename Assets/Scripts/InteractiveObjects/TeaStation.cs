@@ -8,23 +8,28 @@ namespace Deblue.LD48
 {
     public class TeaStation : TakebleObjectContainer, IReactionObject
     {
-        public bool CanReact => !_teaReady && !_timerRun && !_cupTaken && IsAvalible;
-        public override bool CanReturn => _cupTaken && Player.TakenObject is CupOfTea;
-        public override bool CanTake => !_cupTaken && _teaReady;
-        protected override bool CanHighlight => CanTake || CanReturn || CanReact;
+        public bool CanReact(IObjectTaker taker)
+        {
+            return !_teaReady && !_timerRun && !_cupTaken && IsAvalible;
+        }
 
         public bool IsAvalible;
 
-        [SerializeField] private SpritePair _withTea;
-        [SerializeField] private SpritePair _withoutTea;
-        [SerializeField] private CupOfTea   _cup;
-        [SerializeField] private Slider     _slider;
+        [SerializeField] private SpritePair    _withTea;
+        [SerializeField] private SpritePair    _withoutTea;
+        [SerializeField] private TakebleObject _cup;
+        [SerializeField] private Slider        _slider;
 
         private bool _cupTaken;
 
         private ObservFloat _timer = new ObservFloat(0, 9f);
         private bool        _timerRun;
         private bool        _teaReady;
+
+        public override bool CanTake(IObjectTaker taker)
+        {
+            return !_cupTaken && _teaReady;
+        }
 
         public override TakebleObject Take()
         {
@@ -50,6 +55,14 @@ namespace Deblue.LD48
             _timer.UnsubscribeOnChanging(ChangeSliderValue);
         }
 
+        private void FixedUpdate()
+        {
+            if (_timerRun)
+            {
+                _timer += Time.fixedDeltaTime;
+            }
+        }
+
         private void ChangeSliderValue(Limited_Property_Changed<float> context)
         {
             _slider.value = context.NewValue;
@@ -63,15 +76,6 @@ namespace Deblue.LD48
         private void HideSlider()
         {
             _slider.gameObject.SetActive(false);
-        }
-
-        private void FixedUpdate()
-        {
-            if (_timerRun)
-            {
-                _timer += Time.fixedDeltaTime;
-            }
-            TryHilight();
         }
 
         private void StartTimer()
@@ -88,7 +92,12 @@ namespace Deblue.LD48
             HideSlider();
         }
 
-        public override void Return()
+        public override bool CanReturn(string objId)
+        {
+            return _cupTaken && objId == _conteinedObjectId;
+        }
+
+        public override void Return(TakebleObject obj)
         {
             _cupTaken = false;
             _cup.transform.SetParent(transform);
@@ -96,20 +105,35 @@ namespace Deblue.LD48
             Renderer.sprite = _withTea.Highlight;
         }
 
-        protected override void Highlight()
+        public override bool CanHighlight(IObjectTaker taker)
+        {
+            return CanTake(taker) || CanReturn(taker.TakenObject) || CanReact(taker);
+        }
+
+        public override void Highlight()
         {
             Renderer.sprite = _cupTaken ? _withoutTea.Highlight : _withTea.Highlight;
         }
 
-        protected override void StopHighlight()
+        public override void StopHighlight()
         {
             Renderer.sprite = _cupTaken ? _withoutTea.Standart : _withTea.Standart;
             _keyView.enabled = false;
         }
 
-        public void React()
+        public void React(IObjectTaker taker)
         {
             StartTimer();
+        }
+
+        public bool TryReact(IObjectTaker taker)
+        {
+            if (CanReact(taker))
+            {
+                React(taker);
+                return true;
+            }
+            return false;
         }
     }
 }

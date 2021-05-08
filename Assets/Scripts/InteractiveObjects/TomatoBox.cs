@@ -7,48 +7,59 @@ namespace Deblue.LD48
 {
     public class TomatoBox : TakebleObjectContainer
     {
-        protected Tomato[]  _tomatoes = new Tomato[4];
-        protected ObservInt _tomatoesCount;
+        protected TakebleObject[]  _tomatoes = new StandartTakebleObject[4];
+        protected ObservInt _tomatoesCount = new ObservInt();
 
         [SerializeField] private SpritePair[] _sprites;
 
         public IReadonlyObservLimitProperty<int> TomatoesCount => _tomatoesCount;
-        public override bool CanReturn => Player.TakenObject is Tomato && _tomatoesCount < _tomatoes.Length;
-        public override bool CanTake => _tomatoesCount > 0;
-        protected override bool CanHighlight => CanReturn || CanTake;
+        public override bool CanTake(IObjectTaker taker) 
+        {
+            return _tomatoesCount > 0; 
+        }
 
         public override TakebleObject Take()
         {
             _tomatoesCount--;
-            var tomato = _tomatoes[(int)_tomatoesCount];
+
+            var tomato = _tomatoes[_tomatoesCount];
             tomato.gameObject.SetActive(true);
-            _tomatoes[(int)_tomatoesCount] = null;
-            Renderer.sprite = _sprites[(int)_tomatoesCount].Highlight;
+
+            _tomatoes[_tomatoesCount] = null;
+
             return tomato;
         }
 
-        public override void Return()
+        public override bool CanReturn(string objId) 
+        { 
+            return _conteinedObjectId == objId && _tomatoesCount < _tomatoes.Length; 
+        }
+
+        public override void Return(TakebleObject tomato)
         {
-            var tomato = (Tomato)Player.TakenObject;
             tomato.transform.SetParent(transform);
             tomato.gameObject.SetActive(false);
-            _tomatoes[(int)_tomatoesCount] = tomato;
+
+            _tomatoes[_tomatoesCount] = tomato;
             _tomatoesCount++;
-            Renderer.sprite = _sprites[(int)_tomatoesCount].Highlight;
+
+            Renderer.sprite = _sprites[_tomatoesCount].Highlight;
         }
 
-        protected override void Highlight()
+        public override bool CanHighlight(IObjectTaker taker)
         {
-            Renderer.sprite = _sprites[(int)_tomatoesCount].Highlight;
+            return CanReturn(taker.TakenObject) || CanTake(taker);
         }
 
-        protected override void StopHighlight()
+
+        public override void Highlight()
         {
-            Renderer.sprite = _sprites[(int)_tomatoesCount].Standart;
+            Renderer.sprite = _sprites[_tomatoesCount].Highlight;
         }
-    }
 
-    public struct Box_Full
-    {
+        public override void StopHighlight()
+        {
+            Renderer.sprite = _sprites[_tomatoesCount].Standart;
+        }
     }
 }

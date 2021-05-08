@@ -28,7 +28,7 @@ namespace Deblue.LD48
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.TryGetComponent<Player>(out var palyer) && !_isBlocked)
+            if (other.TryGetComponent<Boy>(out var palyer) && !_isBlocked)
             {
                 Open();
             }
@@ -36,7 +36,7 @@ namespace Deblue.LD48
 
         private void OnTriggerExit2D(Collider2D other)
         {
-            if (other.TryGetComponent<Player>(out var palyer))
+            if (other.TryGetComponent<Boy>(out var palyer))
             {
                 Close();
             }
