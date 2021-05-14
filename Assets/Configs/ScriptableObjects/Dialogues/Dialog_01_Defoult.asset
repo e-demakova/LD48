@@ -10,17 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d83b90c08395ada48ac481274eb64c03, type: 3}
-  m_Name: Dialog_05_GiveTea
+  m_Name: Dialog_01_Defoult
   m_EditorClassIdentifier: 
-  Choices:
-  - _answerId: Choice_01
-    _blockReasonTextId: Choice_01_block
-    _nextDialogue: {fileID: 11400000, guid: 018250613d550ed46b89c79b232c3cef, type: 2}
-    _itemId: CupOfTea
-  - _answerId: Choice_02
-    _blockReasonTextId: 
-    _nextDialogue: {fileID: 0}
-    _itemId: 
-  _choiceTextId: D_0510
-  _elements: []
+  Choices: []
+  _choiceTextId: 
+  _elements:
+  - _textId: D_01_defoult
+    _characterId: OldMan
+    _emotion: 0
   _startType: 1

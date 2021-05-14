@@ -15,7 +15,7 @@ namespace Deblue.LD48
     [CreateAssetMenu(fileName = "ChangeStepCondition_TomatosInBox", menuName = "Story/Change Step Conditions/Tomatos In Box")]
     public class ChangeStepOnTomatosInBoxSO : ChangeStepConditionSO
     {
-        [SerializeField] private int _targetTomatosCount;
+        [SerializeField] private int         _targetTomatosCount;
         [SerializeField] private CompareType _compareType;
 
         private IObserver _tomatoesObserver;

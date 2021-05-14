@@ -13,7 +13,7 @@ namespace Deblue.LD48
         [SerializeField] private bool _targetBool;
 
         private int             _plantsCount;
-        private List<IObserver> _observingPlants;
+        private List<IObserver> _observingPlants = new List<IObserver>(4);
 
         protected override void MyInit()
         {
@@ -44,6 +44,7 @@ namespace Deblue.LD48
 
         protected override void MyDeInit()
         {
+            _plantsCount = 0;
             for (int i = 0; i < _observingPlants.Count; i++)
             {
                 _observingPlants[i].Dispose();

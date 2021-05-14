@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d343b02446fd7404ab10db5183788de0, type: 3}
+  m_Name: 01_GameStart
+  m_EditorClassIdentifier: 
+  Conditions:
+  - StepCondition: {fileID: 11400000, guid: 6b3380adf76bcce47a8553d62b787943, type: 2}
+    NextStep: {fileID: 11400000, guid: 39accc5d1c97eea4ab15aaa7c86713f1, type: 2}
+  AvalibleCharacters:
+  - Dialog: {fileID: 11400000, guid: ed2ab5fd1960e1e4994c6229ed4b5c21, type: 2}
+    DefoultDialog: {fileID: 11400000, guid: d730fa357510ed14eb7fda4bcf559e7e, type: 2}
+    CharacterId: OldMan
+    IsHaveUniqDialog: 1
+  _nextStep: {fileID: 11400000, guid: 39accc5d1c97eea4ab15aaa7c86713f1, type: 2}

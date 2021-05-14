@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d343b02446fd7404ab10db5183788de0, type: 3}
-  m_Name: 01_GameStart
+  m_Name: 07_GoToDoor
   m_EditorClassIdentifier: 
   Conditions:
-  - StepCondition: {fileID: 11400000, guid: 6b3380adf76bcce47a8553d62b787943, type: 2}
-    NextStep: {fileID: 11400000, guid: 39accc5d1c97eea4ab15aaa7c86713f1, type: 2}
+  - StepCondition: {fileID: 0}
+    NextStep: {fileID: 11400000, guid: bbc492f3cb20979449fdbe067f569ceb, type: 2}
   AvalibleCharacters:
-  - CharacterId: OldMan
-    Dialog: {fileID: 11400000, guid: ed2ab5fd1960e1e4994c6229ed4b5c21, type: 2}
-    IsImportant: 1
-  _nextStep: {fileID: 11400000, guid: 39accc5d1c97eea4ab15aaa7c86713f1, type: 2}
+  - Dialog: {fileID: 11400000, guid: 018250613d550ed46b89c79b232c3cef, type: 2}
+    DefoultDialog: {fileID: 0}
+    CharacterId: OldMan
+    IsHaveUniqDialog: 1
+  _nextStep: {fileID: 11400000, guid: 2805d330a97e2914bb4a46bda65f26ce, type: 2}

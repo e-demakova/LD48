@@ -16,7 +16,8 @@ MonoBehaviour:
   - StepCondition: {fileID: 11400000, guid: c3bd4282d6dc2e14a9b6c7dec0a313b7, type: 2}
     NextStep: {fileID: 11400000, guid: 25ce0f5879f016e498c3001800dcef0c, type: 2}
   AvalibleCharacters:
-  - CharacterId: OldMan
-    Dialog: {fileID: 11400000, guid: b5f611f448520824d957729113c5b202, type: 2}
-    IsImportant: 1
+  - Dialog: {fileID: 11400000, guid: b5f611f448520824d957729113c5b202, type: 2}
+    DefoultDialog: {fileID: 0}
+    CharacterId: OldMan
+    IsHaveUniqDialog: 1
   _nextStep: {fileID: 11400000, guid: 25ce0f5879f016e498c3001800dcef0c, type: 2}
