@@ -1455,7 +1455,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &519420033
 MonoBehaviour:
@@ -3347,7 +3347,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51aa6a4b1bf2ba446a0adcab59d09c0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _gameModel: {fileID: 1959040808}
   _dialogSwitcher: {fileID: 736308607}
+  _dialogVisualization: {fileID: 7850688522842530390}
   _storyteller: {fileID: 1058484196}
   _intersctObjects: {fileID: 1485514094}
   _boy: {fileID: 238877481}
@@ -4973,7 +4975,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1485514093
 GameObject:
@@ -5311,7 +5313,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &1528743427
 AudioSource:
@@ -6366,7 +6368,7 @@ Transform:
   m_Children:
   - {fileID: 2129192227}
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1726760988
 MonoBehaviour:
@@ -7633,7 +7635,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2088825624
 GameObject:

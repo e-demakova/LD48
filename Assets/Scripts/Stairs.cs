@@ -23,12 +23,12 @@ namespace Deblue.LD48
 
         private void Awake()
         {
-            LD48GameModel.Events.SubscribeOnGameStateChange(CheckIsBlocked);
+            GameModel.Events.SubscribeOnGameStateChange(CheckIsBlocked);
         }
 
         private void OnDestroy()
         {
-            LD48GameModel.Events.UnsubscribeOnGameStateChange(CheckIsBlocked);
+            GameModel.Events.UnsubscribeOnGameStateChange(CheckIsBlocked);
         }
 
         private void OnDrawGizmos()

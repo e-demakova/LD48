@@ -1,11 +1,9 @@
-using System.Collections;
-
 using UnityEngine;
 using Deblue.GameProcess;
 
 namespace Deblue.LD48
 {
-    public class LD48GameModel : PersistentMono<LD48GameModel>
+    public class GameModel : PersistentMono<GameModel>
     {
         public static GlobalGameEventsLD48 _events = new GlobalGameEventsLD48();
         public static IGlobalGameEventsLD48 Events => _events;
@@ -14,11 +12,6 @@ namespace Deblue.LD48
         public static GameState State => _state;
 
         private Coroutine _testGameStateChanger;
-
-        protected override void MyAwake()
-        {
-            //_testGameStateChanger = StartCoroutine(TestGameStateChanging());
-        }
 
         private void OnDestroy()
         {
@@ -50,32 +43,7 @@ namespace Deblue.LD48
             }
         }
 
-        private IEnumerator TestGameStateChanging()
-        {
-            var lastStateTime = -4f;
-
-            while (true)
-            {
-                if (Time.realtimeSinceStartup > lastStateTime + 7f)
-                {
-                    lastStateTime = Time.realtimeSinceStartup;
-                    switch (_state)
-                    {
-                        case GameState.AndDeeper:
-                            ChangeState(GameState.Over);
-                            StopCoroutine(_testGameStateChanger);
-                            break;
-
-                        default:
-                            ChangeStateToNext();
-                            break;
-                    }
-                }
-                yield return new WaitForFixedUpdate();
-            }
-        }
-
-        private void ChangeState(GameState newState)
+        public void ChangeState(GameState newState)
         {
             var oldState = _state;
             _state = newState;

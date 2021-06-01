@@ -1,11 +1,5 @@
 {
   "dependencies": {
-    "com.deblue.toolkit": {
-      "version": "file:E:/GitHub/MyToolkit/Assets/com.deblue.toolkit",
-      "depth": 0,
-      "source": "local",
-      "dependencies": {}
-    },
     "com.unity.2d.animation": {
       "version": "3.2.6",
       "depth": 0,

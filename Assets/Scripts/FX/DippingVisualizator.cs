@@ -29,12 +29,12 @@ namespace Deblue.LD48
 
         private void OnEnable()
         {
-            LD48GameModel.Events.SubscribeOnGameStateChange(VisualizeNewState);
+            GameModel.Events.SubscribeOnGameStateChange(VisualizeNewState);
         }
 
         private void OnDisable()
         {
-            LD48GameModel.Events.UnsubscribeOnGameStateChange(VisualizeNewState);
+            GameModel.Events.UnsubscribeOnGameStateChange(VisualizeNewState);
         }
 
         private void Update()
@@ -42,11 +42,11 @@ namespace Deblue.LD48
             if (Time.realtimeSinceStartup >= _timeToNextShake + _lastShakeTime && !_isOver)
             {
                 ShowRay();
-                _timeToNextShake = Random.Range(1f, 1f);
+                _timeToNextShake = Random.Range(1f, 2f);
                 _lastShakeTime = Time.realtimeSinceStartup;
 
                 _shaker.ShakingTime = 0.7f;
-                //_shaker.Intensity = 0.5f;
+                _shaker.Intensity = 0.5f;
 
                 _shaker.StartShake();
                 StartBlink();
@@ -122,12 +122,12 @@ namespace Deblue.LD48
 
         private void StartBlink()
         {
-            //_bunker.SetTrigger(Random.value < 0.5f ? _blinkTrigget : _blinkLongTrigget);
+            _bunker.SetTrigger(Random.value < 0.5f ? _blinkTrigget : _blinkLongTrigget);
         }
 
         private void StartLastBlink()
         {
-            //_bunker.SetTrigger(_endTrigget);
+            _bunker.SetTrigger(_endTrigget);
         }
     }
 }

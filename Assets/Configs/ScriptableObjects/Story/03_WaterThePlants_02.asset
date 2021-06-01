@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d343b02446fd7404ab10db5183788de0, type: 3}
   m_Name: 03_WaterThePlants_02
   m_EditorClassIdentifier: 
+  GameState: 2
   Conditions:
   - StepCondition: {fileID: 11400000, guid: c3bd4282d6dc2e14a9b6c7dec0a313b7, type: 2}
     NextStep: {fileID: 11400000, guid: 25ce0f5879f016e498c3001800dcef0c, type: 2}
@@ -19,5 +20,5 @@ MonoBehaviour:
   - Dialog: {fileID: 11400000, guid: b5f611f448520824d957729113c5b202, type: 2}
     DefoultDialog: {fileID: 0}
     CharacterId: OldMan
-    IsHaveUniqDialog: 1
+    IsHaveUniqDialog: 0
   _nextStep: {fileID: 11400000, guid: 25ce0f5879f016e498c3001800dcef0c, type: 2}
